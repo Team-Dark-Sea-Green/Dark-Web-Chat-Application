@@ -13,6 +13,8 @@ using DarkWebChat.RestServices.Models;
 
 namespace DarkWebChat.RestServices.Providers
 {
+    using DarkWebChat.Models;
+
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly string _publicClientId;

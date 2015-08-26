@@ -19,6 +19,8 @@ using DarkWebChat.RestServices.Results;
 
 namespace DarkWebChat.RestServices.Controllers
 {
+    using DarkWebChat.Models;
+
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController

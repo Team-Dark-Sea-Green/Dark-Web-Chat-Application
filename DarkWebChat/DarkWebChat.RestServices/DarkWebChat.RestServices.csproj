@@ -222,7 +222,6 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -296,6 +295,16 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DarkWebChat.Data\DarkWebChat.Data.csproj">
+      <Project>{da096c5e-e0f7-483e-a328-a3e7774f24fc}</Project>
+      <Name>DarkWebChat.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DarkWebChat.Models\DarkWebChat.Models.csproj">
+      <Project>{5e441c88-8871-4b6b-991a-c7cc097a0107}</Project>
+      <Name>DarkWebChat.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
