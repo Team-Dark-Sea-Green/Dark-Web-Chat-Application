@@ -17,13 +17,13 @@
             this.recievedMessages = new HashSet<Message>();
         }
 
-        public ICollection<Message> SentMessages
+        public virtual ICollection<Message> SentMessages
         {
             get { return this.sentMessages; }
             set { this.sentMessages = value; }
         }
 
-        public ICollection<Message> RecievedMessages
+        public virtual ICollection<Message> RecievedMessages
         {
             get { return this.recievedMessages; }
             set { this.recievedMessages = value; }

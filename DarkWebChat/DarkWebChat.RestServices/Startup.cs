@@ -12,8 +12,7 @@ namespace DarkWebChat.RestServices
     {
         public void Configuration(IAppBuilder app)
         {
-            // Add the SignalR Middlewware to the OWIN pipeline
-            app.MapSignalR();
+            ConfigureAuth(app);
         }
     }
 }

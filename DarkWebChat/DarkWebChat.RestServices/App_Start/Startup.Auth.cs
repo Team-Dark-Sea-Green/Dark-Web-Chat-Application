@@ -13,7 +13,7 @@ using DarkWebChat.RestServices.Models;
 
 namespace DarkWebChat.RestServices
 {
-    using Data;
+    using DarkWebChat.Data;
 
     public partial class Startup
     {

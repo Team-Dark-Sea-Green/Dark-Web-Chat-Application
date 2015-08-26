@@ -75,10 +75,6 @@
       <Project>{5e441c88-8871-4b6b-991a-c7cc097a0107}</Project>
       <Name>DarkWebChat.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DarkWebChat.RestServices\DarkWebChat.RestServices.csproj">
-      <Project>{0559ede3-4b00-468c-96f5-762ebb87a8bd}</Project>
-      <Name>DarkWebChat.RestServices</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
