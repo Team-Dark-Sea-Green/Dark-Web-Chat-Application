@@ -8,7 +8,7 @@
         public Channel()
         {
             this.Users = new HashSet<ApplicationUser>();
-            this.Messages = new HashSet<Message>();
+            this.Messages = new HashSet<ChannelMessage>();
         }
 
         [Key]
@@ -19,6 +19,6 @@
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
 
-        public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<ChannelMessage> Messages { get; set; }
     }
 }

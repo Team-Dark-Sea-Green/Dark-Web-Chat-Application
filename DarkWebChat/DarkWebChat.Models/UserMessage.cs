@@ -1,9 +1,15 @@
-﻿namespace DarkWebChat.Models
-{
-    using System;
-    using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-    public class Message
+namespace DarkWebChat.Models
+{
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    public class UserMessage
     {
         [Key]
         public int Id { get; set; }
@@ -23,9 +29,5 @@
         public string RecieverId { get; set; }
 
         public virtual ApplicationUser Reciever { get; set; }
-
-        public int? ChannelId { get; set; }
-
-        public virtual Channel Channel { get; set; }
     }
 }

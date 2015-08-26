@@ -8,27 +8,6 @@
 
     public class ApplicationUser : IdentityUser
     {
-        private ICollection<Message> sentMessages;
-        private ICollection<Message> recievedMessages;
-
-        public ApplicationUser()
-        {
-            this.sentMessages = new HashSet<Message>();
-            this.recievedMessages = new HashSet<Message>();
-        }
-
-        public virtual ICollection<Message> SentMessages
-        {
-            get { return this.sentMessages; }
-            set { this.sentMessages = value; }
-        }
-
-        public virtual ICollection<Message> RecievedMessages
-        {
-            get { return this.recievedMessages; }
-            set { this.recievedMessages = value; }
-        }
-
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(
             UserManager<ApplicationUser> manager,
             string authenticationType)

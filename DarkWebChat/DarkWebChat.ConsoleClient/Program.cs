@@ -9,7 +9,7 @@
         static void Main(string[] args)
         {
             var context = new WebChatContext();
-            Console.WriteLine(context.Messages.Count());
+            Console.WriteLine(context.UserMessages.Count());
         }
     }
 }

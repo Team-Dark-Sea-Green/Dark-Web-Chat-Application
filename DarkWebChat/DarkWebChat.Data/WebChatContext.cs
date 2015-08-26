@@ -13,9 +13,12 @@ namespace DarkWebChat.Data
             : base("name=WebChatContext")
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<WebChatContext, Configuration>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<WebChatContext>());
         }
 
-        public virtual IDbSet<Message> Messages { get; set; }
+        public virtual IDbSet<UserMessage> UserMessages { get; set; }
+
+        public virtual IDbSet<ChannelMessage> ChannelMessages { get; set; }
 
         public virtual IDbSet<Notification> Notifications { get; set; }
 
@@ -25,16 +28,29 @@ namespace DarkWebChat.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Message>()
-                .HasRequired<ApplicationUser>(m => m.Reciever)
-                .WithMany(u => u.RecievedMessages)
-                .HasForeignKey(m => m.RecieverId)
+            modelBuilder.Entity<UserMessage>()
+                .HasRequired<ApplicationUser>(m => m.Sender)
+                .WithMany()
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Message>()
+            modelBuilder.Entity<UserMessage>()
+                .HasRequired<ApplicationUser>(m => m.Reciever)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ChannelMessage>()
                 .HasRequired<ApplicationUser>(m => m.Sender)
-                .WithMany(u => u.SentMessages)
-                .HasForeignKey(m => m.SenderId)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Attachment>()
+                .HasRequired<ApplicationUser>(m => m.Sender)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Attachment>()
+                .HasRequired<ApplicationUser>(m => m.Reciever)
+                .WithMany()
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
