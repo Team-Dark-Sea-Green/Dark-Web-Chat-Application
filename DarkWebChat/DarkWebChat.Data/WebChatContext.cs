@@ -24,7 +24,7 @@ namespace DarkWebChat.Data
 
         public virtual IDbSet<Channel> Channels { get; set; }
 
-        public virtual IDbSet<Attachment> Attachments { get; set; }
+        public virtual IDbSet<MessageContent> MessageContents { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -40,16 +40,6 @@ namespace DarkWebChat.Data
 
             modelBuilder.Entity<ChannelMessage>()
                 .HasRequired<ApplicationUser>(m => m.Sender)
-                .WithMany()
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Attachment>()
-                .HasRequired<ApplicationUser>(m => m.Sender)
-                .WithMany()
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Attachment>()
-                .HasRequired<ApplicationUser>(m => m.Reciever)
                 .WithMany()
                 .WillCascadeOnDelete(false);
 

@@ -5,6 +5,9 @@
 
     public class Channel
     {
+        private ICollection<ApplicationUser> users;
+        private ICollection<ChannelMessage> messages;
+
         public Channel()
         {
             this.Users = new HashSet<ApplicationUser>();
@@ -17,8 +20,22 @@
         [Required]
         public string Name { get; set; }
 
-        public virtual ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<ApplicationUser> Users 
+        {
+            get
+            {
+                return this.users;
+            }
+            set
+            {
+                this.users = value;
+            }
+        }
 
-        public virtual ICollection<ChannelMessage> Messages { get; set; }
+        public virtual ICollection<ChannelMessage> Messages
+        {
+            get { return this.messages; }
+            set { this.messages = value; }
+        }
     }
 }

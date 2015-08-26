@@ -15,7 +15,9 @@ namespace DarkWebChat.Models
         public int Id { get; set; }
 
         [Required]
-        public string Content { get; set; }
+        public int ContentId { get; set; }
+
+        public MessageContent Content { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
@@ -23,11 +25,13 @@ namespace DarkWebChat.Models
         [Required]
         public string SenderId { get; set; }
 
+        [ForeignKey("SenderId")]
         public virtual ApplicationUser Sender { get; set; }
 
         [Required]
         public string RecieverId { get; set; }
 
+        [ForeignKey("RecieverId")]
         public virtual ApplicationUser Reciever { get; set; }
     }
 }
