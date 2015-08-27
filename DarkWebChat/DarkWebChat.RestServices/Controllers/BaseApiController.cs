@@ -1,15 +1,18 @@
 ﻿namespace DarkWebChat.RestServices.Controllers
 {
     using System.Web.Http;
+
+    using DarkWebChat.Data.UnitOfWork;
+
     using Data;
 
-    public class BaseApiController : ApiController
+    public abstract class BaseApiController : ApiController
     {
-        public BaseApiController()
+        protected BaseApiController(IDarkWebChatData data)
         {
-            this.Data = new WebChatContext();
+            this.Data = data;
         }
 
-        public WebChatContext Data { get; set; }
+        protected IDarkWebChatData Data { get; }
     }
 }

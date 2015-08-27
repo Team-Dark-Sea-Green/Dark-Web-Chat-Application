@@ -4,10 +4,18 @@
     using System.Collections.Generic;
     using System.Security.Authentication.ExtendedProtection;
     using System.Web.Http;
+
+    using DarkWebChat.Data.UnitOfWork;
+
     using Models.BindingModels;
 
     public class ChannelsController : BaseApiController
     {
+        public ChannelsController()
+            : base(new DarkWebChatData())
+        {
+        }
+
         // GET api/channels
         public IHttpActionResult GetAllChannels()
         {

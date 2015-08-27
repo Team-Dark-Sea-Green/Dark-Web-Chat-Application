@@ -61,6 +61,10 @@
   <ItemGroup>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\GenericEfRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="UnitOfWork\DarkWebChatData.cs" />
+    <Compile Include="UnitOfWork\IDarkWebChatData.cs" />
     <Compile Include="WebChatContext.cs" />
   </ItemGroup>
   <ItemGroup>
