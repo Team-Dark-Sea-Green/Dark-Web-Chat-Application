@@ -88,7 +88,7 @@ namespace DarkWebChat.RestServices.Controllers
             });
         }
 
-        //Add user to channel
+        //PUT api/channels/adduser
         [HttpPut]
         [Route("channels/adduser")]
         public IHttpActionResult AddUserToChannel(AddUserToChannelBindingModel model)
