@@ -61,18 +61,10 @@
                 return this.BadRequest("No such user.");
             }
 
-            this.Data.MessageContents.Add(new MessageContent
-                {
-                    Data = model.Data, 
-                    IsFile = model.IsFile
-                });
-            this.Data.SaveChanges();
-
-            var content = this.Data.MessageContents.All().FirstOrDefault(m => m.Data == model.Data);
-
             var message = new UserMessage()
             {
-                ContentId = content.Id,
+                Data = model.Data,
+                IsFile = model.IsFile,
                 SenderId = loggedUser,
                 RecieverId = reciever.Id,
                 Date = DateTime.Now

@@ -24,8 +24,6 @@ namespace DarkWebChat.Data
 
         public virtual IDbSet<Channel> Channels { get; set; }
 
-        public virtual IDbSet<MessageContent> MessageContents { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserMessage>()

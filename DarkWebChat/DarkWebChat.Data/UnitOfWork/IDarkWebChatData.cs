@@ -17,8 +17,6 @@
 
         IRepository<Notification> Notifications { get; }
 
-        IRepository<MessageContent> MessageContents { get; }
-
         IUserStore<ApplicationUser> UserStore { get; }
 
         void SaveChanges();

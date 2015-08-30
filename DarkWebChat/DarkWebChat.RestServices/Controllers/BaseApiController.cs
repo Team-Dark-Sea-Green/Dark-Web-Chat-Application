@@ -13,6 +13,6 @@
             this.Data = data;
         }
 
-        protected IDarkWebChatData Data { get; }
+        protected IDarkWebChatData Data { get; private set; }
     }
 }

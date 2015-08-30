@@ -70,14 +70,6 @@
             }
         }
 
-        public IRepository<MessageContent> MessageContents
-        {
-            get
-            {
-                return this.GetRepository<MessageContent>();
-            }
-        }
-
         public IUserStore<ApplicationUser> UserStore
         {
             get

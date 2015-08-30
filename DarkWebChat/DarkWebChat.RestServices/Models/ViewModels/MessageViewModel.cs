@@ -24,9 +24,9 @@
                 {
                     DateSent = message.Date,
                     Id = message.Id,
-                    IsFile = message.Content.IsFile,
+                    IsFile = message.IsFile,
                     Sender = message.Sender.UserName,
-                    Text = message.Content.Data
+                    Text = message.Data
                 };
             }
         }
@@ -36,9 +36,9 @@
             return new MessageViewModel()
             {
                 DateSent = message.Date,
-                IsFile = message.Content.IsFile,
+                IsFile = message.IsFile,
                 Sender = message.Sender.UserName,
-                Text = message.Content.Data
+                Text = message.Data
             };
         }
     }

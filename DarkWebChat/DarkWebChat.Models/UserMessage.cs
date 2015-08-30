@@ -17,7 +17,11 @@ namespace DarkWebChat.Models
         [Required]
         public int ContentId { get; set; }
 
-        public MessageContent Content { get; set; }
+        [Required]
+        public string Data { get; set; }
+
+        [Required]
+        public bool IsFile { get; set; }
 
         [Required]
         public DateTime Date { get; set; }

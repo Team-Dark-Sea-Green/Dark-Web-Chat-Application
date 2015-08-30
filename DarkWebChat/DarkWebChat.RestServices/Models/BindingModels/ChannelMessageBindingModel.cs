@@ -5,9 +5,9 @@
     public class ChannelMessageBindingModel
     {
         [Required]
-        public string Text { get; set; }
+        public string Data { get; set; }
 
         [Required]
-        public int IsFile { get; set; }
+        public bool IsFile { get; set; }
     }
 }

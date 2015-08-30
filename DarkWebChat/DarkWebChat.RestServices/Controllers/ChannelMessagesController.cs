@@ -54,10 +54,10 @@
                 messages.Select(m => new MessageViewModel
                 {
                     Id = m.Id,
-                    Text = m.Content.Data,
+                    Text = m.Data,
                     DateSent = m.Date,
                     Sender = (m.Sender != null) ? m.Sender.UserName : null,
-                    IsFile = m.Content.IsFile
+                    IsFile = m.IsFile
                 }));
         }
 
@@ -90,18 +90,10 @@
                 return this.BadRequest("Login to send message.");
             }
 
-            MessageContent messageContent = new MessageContent
-                                                {
-                                                    Data = channelMessageData.Text,
-                                                    IsFile = channelMessageData.IsFile != 0
-                                                };
-
-            this.Data.MessageContents.Add(messageContent);
-            this.Data.SaveChanges();
-
             var message = new ChannelMessage()
                               {
-                                  ContentId = messageContent.Id,
+                                  Data = channelMessageData.Data,
+                                  IsFile = channelMessageData.IsFile,
                                   ChannelId = channel.Id,
                                   Date = DateTime.Now,
                                   SenderId = currentUser.Id
