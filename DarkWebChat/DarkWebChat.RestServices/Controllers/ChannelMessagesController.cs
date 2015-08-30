@@ -57,7 +57,7 @@
                     Text = m.Content.Data,
                     DateSent = m.Date,
                     Sender = (m.Sender != null) ? m.Sender.UserName : null,
-                    IsFile = m.Content.IsFile ? 1 : 0
+                    IsFile = m.Content.IsFile
                 }));
         }
 
