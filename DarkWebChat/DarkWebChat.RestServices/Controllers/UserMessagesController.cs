@@ -15,10 +15,10 @@
         public UserMessagesController()
             :base(new DarkWebChatData())
         {
-            
         }
-        // GET api/userMessages/{username}
-        [Route("api/userMessages/{username}")]
+
+        // GET api/user-messages/{username}
+        [Route("api/user-messages/{username}")]
         [HttpGet]
         public IHttpActionResult GetAllUserMessages(string username)
         {
@@ -37,8 +37,8 @@
             return this.Ok(messages);
         }
 
-        // POST api/userMessages/{username}
-        [Route("api/userMessages/{username}")]
+        // POST api/user-messages/{username}
+        [Route("api/user-messages/{username}")]
         [HttpPost]
         public IHttpActionResult PostUserMessage(string username, UserMessageBindingModel model)
         {
@@ -63,8 +63,8 @@
 
             var message = new UserMessage()
             {
-                Data = model.Data,
-                IsFile = model.IsFile,
+                Content = model.Content,
+                IsFile = model.IsFile != 0,
                 SenderId = loggedUser,
                 RecieverId = reciever.Id,
                 Date = DateTime.Now

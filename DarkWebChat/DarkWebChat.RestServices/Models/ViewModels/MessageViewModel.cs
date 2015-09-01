@@ -8,7 +8,7 @@
     {
         public int Id { get; set; }
 
-        public string Text { get; set; }
+        public string Content { get; set; }
 
         public DateTime DateSent { get; set; }
 
@@ -26,7 +26,7 @@
                     Id = message.Id,
                     IsFile = message.IsFile,
                     Sender = message.Sender.UserName,
-                    Text = message.Data
+                    Content = message.Content
                 };
             }
         }
@@ -38,7 +38,7 @@
                 DateSent = message.Date,
                 IsFile = message.IsFile,
                 Sender = message.Sender.UserName,
-                Text = message.Data
+                Content = message.Content
             };
         }
     }

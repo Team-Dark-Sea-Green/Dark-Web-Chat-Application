@@ -54,7 +54,7 @@
                 messages.Select(m => new MessageViewModel
                 {
                     Id = m.Id,
-                    Text = m.Data,
+                    Content = m.Content,
                     DateSent = m.Date,
                     Sender = (m.Sender != null) ? m.Sender.UserName : null,
                     IsFile = m.IsFile
@@ -92,8 +92,8 @@
 
             var message = new ChannelMessage()
                               {
-                                  Data = channelMessageData.Data,
-                                  IsFile = channelMessageData.IsFile,
+                                  Content = channelMessageData.Content,
+                                  IsFile = channelMessageData.IsFile != 0,
                                   ChannelId = channel.Id,
                                   Date = DateTime.Now,
                                   SenderId = currentUser.Id

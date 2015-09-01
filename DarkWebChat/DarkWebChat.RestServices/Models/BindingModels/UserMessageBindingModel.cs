@@ -8,18 +8,9 @@
     public class UserMessageBindingModel
     {
         [Required]
-        public int ContentId { get; set; }
+        public string Content { get; set; }
 
         [Required]
-        public string Data { get; set; }
-
-        [Required]
-        public bool IsFile { get; set; }
-
-        [Required]
-        public string SenderId { get; set; }
-
-        [Required]
-        public string RecieverId { get; set; }
+        public int IsFile { get; set; }
     }
 }
