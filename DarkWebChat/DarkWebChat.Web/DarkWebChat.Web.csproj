@@ -241,6 +241,7 @@
   <ItemGroup>
     <Content Include="AngularJS\app.js" />
     <Content Include="AngularJS\Controllers\AuthenticationController.js" />
+    <Content Include="AngularJS\Controllers\ChannelController.js" />
     <Content Include="AngularJS\Controllers\MainController.js" />
     <Content Include="AngularJS\darkwebchat.js" />
     <Content Include="AngularJS\Directives\fileRead.js" />

@@ -20,12 +20,12 @@
         {
         }
 
-        // GET api/channel-messages/{channelId}
+        // GET api/channel-messages/{channelName}
         [HttpGet]
-        [Route("channel-messages/{channelId}")]
-        public IHttpActionResult GetAllChannelMessages(int channelId, [FromUri] string limit = null)
+        [Route("channel-messages/{channelName}")]
+        public IHttpActionResult GetAllChannelMessages(string channelName, [FromUri] string limit = null)
         {
-            var channel = this.Data.Channels.All().FirstOrDefault(c => c.Id == channelId);
+            var channel = this.Data.Channels.All().FirstOrDefault(c => c.Name == channelName);
             if (channel == null)
             {
                 return this.NotFound();
@@ -65,10 +65,10 @@
                             }));
         }
 
-        // POST api/channel-messages/{channelId}
+        // POST api/channel-messages/{channelName}
         [HttpPost]
-        [Route("channel-messages/{channelId}")]
-        public IHttpActionResult PostChannelMessage(int channelId, ChannelMessageBindingModel channelMessageData)
+        [Route("channel-messages/{channelName}")]
+        public IHttpActionResult PostChannelMessage(string channelName, ChannelMessageBindingModel channelMessageData)
         {
             if (channelMessageData == null)
             {
@@ -80,7 +80,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var channel = this.Data.Channels.All().FirstOrDefault(c => c.Id == channelId);
+            var channel = this.Data.Channels.All().FirstOrDefault(c => c.Name == channelName);
             if (channel == null)
             {
                 return this.NotFound();

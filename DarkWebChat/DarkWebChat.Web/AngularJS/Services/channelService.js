@@ -8,7 +8,6 @@
             }).error(error);
     }
 
-
     return {
         GetChannels: GetChannels
     }

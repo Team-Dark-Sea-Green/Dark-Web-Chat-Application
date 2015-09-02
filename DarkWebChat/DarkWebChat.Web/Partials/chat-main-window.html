@@ -1,5 +1,7 @@
 ﻿<div>
     <ul>
-        <a href="" ng-repeat="channel in channels">{{channel.Name}}</a>
+        <li  ng-repeat="channel in channels">
+            <a href="#/channel/{{channel.Name}}">{{channel.Name}}</a>
+        </li>
     </ul>
 </div>

@@ -27,11 +27,11 @@
             return this.Ok(allChannels);
         }
 
-        // GET api/channels/{id}
-        [Route("channels/{id}")]
-        public IHttpActionResult GetChannel(int id)
+        // GET api/channels/{channelName}
+        [Route("channels/{channelName}")]
+        public IHttpActionResult GetChannel(string channelName)
         {
-            var channel = this.Data.Channels.Find(id);
+            var channel = this.Data.Channels.All().FirstOrDefault(c => c.Name == channelName);
             if (channel == null)
             {
                 return this.NotFound();
@@ -100,12 +100,12 @@
             return this.Ok(new ChannelViewModel { Id = channel.Id, Name = channel.Name, Users = channel.Users });
         }
 
-        // DELETE api/channels/{id}
+        // DELETE api/channels/{channelName}
         [HttpDelete]
-        [Route("channels/{id}")]
-        public IHttpActionResult DeleteChannel(int id)
+        [Route("channels/{channelName}")]
+        public IHttpActionResult DeleteChannel(string channelName)
         {
-            var channel = this.Data.Channels.Find(id);
+            var channel = this.Data.Channels.All().FirstOrDefault(c => c.Name == channelName);
             if (channel == null)
             {
                 return this.BadRequest("There is no such channel!");

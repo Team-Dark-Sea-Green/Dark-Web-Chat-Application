@@ -14,6 +14,10 @@ app.config(['$routeProvider', function (routeProvider) {
             templateUrl: 'Partials/chat-main-window.html',
             controller: 'MainController'
         })
+        .when('/channel/:channelName', {
+            templateUrl: 'Partials/chat-channel-window.html',
+            controller: 'ChannelController'
+        })
         .otherwise({
             redirectTo: '/'
         });
