@@ -34,7 +34,7 @@
             IQueryable<ChannelMessage> messages =
                 this.Data.ChannelMessages.All()
                     .Where(m => m.Channel.Id == channel.Id)
-                    .OrderByDescending(m => m.Date)
+                    .OrderBy(m => m.Date)
                     .ThenByDescending(m => m.Id);
 
             if (limit != null)
@@ -52,17 +52,17 @@
             }
 
             return
-                this.Ok(
-                    messages.Select(
-                        m =>
-                        new MessageViewModel
-                            {
-                                Id = m.Id, 
-                                Content = m.Content, 
-                                DateSent = m.Date, 
-                                Sender = (m.Sender != null) ? m.Sender.UserName : null, 
-                                IsFile = m.IsFile
-                            }));
+                 this.Ok(
+                     messages.Select(
+                         m =>
+                         new MessageViewModel
+                         {
+                             Id = m.Id,
+                             Content = m.Content,
+                             DateSent = m.Date,
+                             Sender = (m.Sender != null) ? m.Sender.UserName : null,
+                             IsFile = m.IsFile
+                         }));
         }
 
         // POST api/channel-messages/{channelName}
@@ -104,26 +104,16 @@
                               };
             this.Data.ChannelMessages.Add(message);
             this.Data.SaveChanges();
-
-            if (message.Sender == null)
-            {
-                return
-                    this.Ok(
-                        new
-                            {
-                                message.Id, 
-                                Message = "Anonymous message sent successfully to channel " + channel.Name + "."
-                            });
-            }
-
+            
             return
-                this.Ok(
-                    new
-                        {
-                            message.Id, 
-                            Sender = message.Sender.UserName, 
-                            Message = "Message sent successfully to channel " + channel.Name + "."
-                        });
+                this.Ok(new MessageViewModel
+                {
+                    Id = message.Id,
+                    Content = message.Content,
+                    DateSent = message.Date,
+                    Sender = message.Sender.UserName,
+                    IsFile = message.IsFile
+                });
         }
     }
 }

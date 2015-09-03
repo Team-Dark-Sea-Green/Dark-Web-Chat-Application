@@ -4,6 +4,8 @@ app.constant('baseUrl',
     'http://localhost:61714/api/'
 );
 
+app.value('chatHub', $.connection.DarkWebChatHub);
+
 app.config(['$routeProvider', function (routeProvider) {
     routeProvider
         .when('/', {

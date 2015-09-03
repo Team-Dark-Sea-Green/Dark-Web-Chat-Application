@@ -213,7 +213,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Common\MessageDetail.cs" />
     <Compile Include="Common\UserDetail.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
@@ -243,11 +242,11 @@
     <Content Include="AngularJS\Controllers\AuthenticationController.js" />
     <Content Include="AngularJS\Controllers\ChannelController.js" />
     <Content Include="AngularJS\Controllers\MainController.js" />
-    <Content Include="AngularJS\darkwebchat.js" />
     <Content Include="AngularJS\Directives\fileRead.js" />
     <Content Include="AngularJS\Services\channelService.js" />
     <Content Include="AngularJS\Services\credentialsService.js" />
     <Content Include="AngularJS\Services\notificationService.js" />
+    <Content Include="AngularJS\Services\signalRService.js" />
     <Content Include="AngularJS\Services\userService.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
