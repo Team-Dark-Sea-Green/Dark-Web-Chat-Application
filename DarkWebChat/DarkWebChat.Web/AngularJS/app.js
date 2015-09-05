@@ -1,6 +1,7 @@
 ﻿var app = angular.module('DarkWebChat', ['ngRoute']);
 
 var connection = $.connection.DarkWebChatHub;
+
 app.value('chatHub', connection);
 
 app.run(function ($rootScope, $route, $location) {

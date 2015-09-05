@@ -7,7 +7,7 @@ app.directive("fileread", ['notificationService',function (notificationService) 
             element.bind("change", function (changeEvent) {
                 var file = changeEvent.target.files[0];
 
-                if (file.type.match(/image\/.*/)) {
+                if (file) {
                     var reader = new FileReader();
                     reader.onload = function (loadEvent) {
                         scope.$apply(function () {
@@ -19,7 +19,12 @@ app.directive("fileread", ['notificationService',function (notificationService) 
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    notificationService.showErrorMessage('File error, only images allowed.');
+                    scope.$apply(function () {
+                        scope.fileread = {
+                            src: undefined,
+                            size: undefined
+                        }
+                    });
                 }
             });
         }

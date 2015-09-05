@@ -18,8 +18,7 @@ namespace DarkWebChat.Models
         [Required]
         public string Content { get; set; }
 
-        [Required]
-        public bool IsFile { get; set; }
+        public string FileContent { get; set; }
 
         [Required]
         public DateTime Date { get; set; }

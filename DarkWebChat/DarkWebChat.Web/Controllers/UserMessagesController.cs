@@ -69,7 +69,7 @@
             var message = new UserMessage
                               {
                                   Content = model.Content, 
-                                  IsFile = model.IsFile != 0, 
+                                  FileContent = model.FileContent, 
                                   SenderId = loggedUser.GetUserId(), 
                                   RecieverId = reciever.Id, 
                                   Date = DateTime.Now
@@ -84,9 +84,9 @@
                         {
                             Content = message.Content,
                             DateSent = message.Date,
-                            IsFile = message.IsFile,
+                            FileContent = message.FileContent,
                             Sender = loggedUser.GetUserName(),
-                            Reciver = reciever.UserName,
+                            Reciever = reciever.UserName,
                         });
         }
     }

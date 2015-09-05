@@ -1,5 +1,6 @@
 ﻿namespace DarkWebChat.Web
 {
+    using System;
     using System.Threading.Tasks;
     using System.Collections.Generic;
     using System.Linq;
@@ -57,7 +58,7 @@
         public void SendPrivateMessage(string toUserConnetionId, string message, string channelName)
         {
             string fromUserConnetionId = this.Context.ConnectionId;
-
+            
             var toUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == toUserConnetionId);
             var fromUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == fromUserConnetionId);
 

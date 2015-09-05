@@ -7,7 +7,6 @@
         [Required]
         public string Content { get; set; }
 
-        [Required]
-        public int IsFile { get; set; }
+        public string FileContent { get; set; }
     }
 }

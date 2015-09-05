@@ -3,7 +3,7 @@
 
         // SignalR functions
         chatHub.client.onConnected = function (channelOnlineUsers) {
-            $scope.channelOnlineUsers = sortAlphabeticaly(channelOnlineUsers);
+            $scope.channelOnlineUsers = channelOnlineUsers;
             $scope.$apply();
         }
         
@@ -21,7 +21,7 @@
                         return el.UserName !== username;
                     });
 
-            $scope.channelOnlineUsers = set;
+            $scope.channelOnlineUsers = sortAlphabeticaly(set);
             $scope.$apply();
         }
 
@@ -53,8 +53,9 @@
 
         // Event-handlers
         $scope.postChannelMessage = function (channelMessageData) {
-            channelMessageData.isFile = 0;
-            channelMessagesService.PostChannelMessage($routeParams.channelName, channelMessageData,
+            if (channelMessageData.Content === undefined && channelMessageData.FileContent !== undefined) {
+                channelMessageData.Content = "File";
+            } channelMessagesService.PostChannelMessage($routeParams.channelName, channelMessageData,
                 { Authorization: credentialsService.getSessionToken() },
                 function(serverData) {
                     chatHub.server.sendMessageToGroup(JSON.stringify(serverData), $routeParams.channelName);
@@ -65,11 +66,13 @@
         }
 
         $scope.postPrivateMessage = function (username, userConnectionId, userMessageData) {
-            userMessageData.isFile = 0;
+            if (userMessageData.Content === undefined && userMessageData.FileContent !== undefined) {
+                userMessageData.Content = "File";
+            }
             userMessagesService.PostUserMessage(username, userMessageData,
                 { Authorization: credentialsService.getSessionToken() },
-                function(serverData) {
-                    chatHub.server.sendPrivateMessage(userConnectionId, JSON.stringify(serverData), $routeParams.channelName);
+                function (serverData) {
+                        chatHub.server.sendPrivateMessage(userConnectionId, JSON.stringify(serverData), $routeParams.channelName);
                 },
                 function(serverError) {
                     notificationService.showErrorMessage(JSON.stringify(serverError));

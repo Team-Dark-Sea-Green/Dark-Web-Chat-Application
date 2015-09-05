@@ -61,7 +61,7 @@
                              Content = m.Content,
                              DateSent = m.Date,
                              Sender = (m.Sender != null) ? m.Sender.UserName : null,
-                             IsFile = m.IsFile
+                             FileContent = m.FileContent
                          }));
         }
 
@@ -97,7 +97,7 @@
             var message = new ChannelMessage
                               {
                                   Content = channelMessageData.Content, 
-                                  IsFile = channelMessageData.IsFile != 0, 
+                                  FileContent = channelMessageData.FileContent, 
                                   ChannelId = channel.Id, 
                                   Date = DateTime.Now, 
                                   SenderId = currentUser.Id
@@ -112,7 +112,7 @@
                     Content = message.Content,
                     DateSent = message.Date,
                     Sender = message.Sender.UserName,
-                    IsFile = message.IsFile
+                    FileContent = message.FileContent
                 });
         }
     }

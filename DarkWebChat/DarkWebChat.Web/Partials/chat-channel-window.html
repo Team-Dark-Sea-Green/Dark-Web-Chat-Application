@@ -5,8 +5,14 @@
         </ul>
     </div>
     <div class="post-channel-message">
-        <input type="text" ng-model="channelMessageContent" value="" placeholder="Message.." /><br/>
-        <input ng-click="postChannelMessage({Content: channelMessageContent})" type="submit"/>
+        <input type="text" ng-model="channelMessageContent" placeholder="Message.."/>
+        <input type="file" fileRead="attachedFile" />
+
+        <input ng-click="postChannelMessage({   
+                                                Content: channelMessageContent, 
+                                                FileContent: attachedFile.src, 
+                                                Size: attachedFile.size 
+                                            })" type="submit"/>
     </div>
-    <div class="online-users" ng-include="'Partials/chat-users-list.html'"></div>
+    <div class="online-users"  style="border: 1px solid black" ng-include="'Partials/chat-users-list.html'"></div>
 </div>

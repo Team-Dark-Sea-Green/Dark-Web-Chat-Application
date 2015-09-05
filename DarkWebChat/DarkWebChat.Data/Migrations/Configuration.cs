@@ -53,14 +53,12 @@ namespace DarkWebChat.Data.Migrations
                         Content = "Wassup Bats!?",
                         Date = DateTime.Now,
                         Sender = context.Users.FirstOrDefault(u => u.UserName == "Robin"),
-                        IsFile = false
                     },
                     new ChannelMessage()
                     {
                         Content = "I'm Batman!",
                         Date = DateTime.Now,
                         Sender = context.Users.FirstOrDefault(u => u.UserName == "Batman"),
-                        IsFile = false
                     }
                 };
 
