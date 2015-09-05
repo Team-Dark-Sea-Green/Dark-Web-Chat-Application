@@ -21,7 +21,7 @@
                         return el.UserName !== username;
                     });
 
-            $scope.channelOnlineUsers = sortAlphabeticaly(set);
+            $scope.channelOnlineUsers = set;
             $scope.$apply();
         }
 
@@ -30,7 +30,7 @@
             $scope.$apply();
         }
 
-        chatHub.client.onPrivateMessageRecieved = function (fromUserConnetionId, fromUserName, message) {
+        chatHub.client.onPrivateMessageRecieved = function (fromUserConnetionId, message) {
             console.log(message);
         }
 

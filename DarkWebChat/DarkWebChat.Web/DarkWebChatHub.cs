@@ -22,7 +22,7 @@
             }
 
             // send to caller
-            this.Clients.Caller.onConnected(channelsOnlineUsers[channelName]);
+            this.Clients.Caller.onConnected(channelsOnlineUsers[channelName].OrderBy(u => u.UserName));
 
             channelsOnlineUsers[channelName].Add(
                new UserDetail() { ConnectionId = this.Context.ConnectionId, UserName = userName });
@@ -64,10 +64,10 @@
             if (toUser != null && fromUser != null)
             {
                 // send to 
-                this.Clients.Client(toUserConnetionId).onPrivateMessageRecieved(fromUserConnetionId, fromUser.UserName, message);
+                this.Clients.Client(toUserConnetionId).onPrivateMessageRecieved(fromUserConnetionId, message);
 
                 // send to caller user
-                this.Clients.Caller.onSentPrivateMessage(toUserConnetionId, fromUser.UserName, message);
+                this.Clients.Caller.onSentPrivateMessage(toUserConnetionId, message);
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿<h4>Online users: </h4>
 <ul>
     <li ng-repeat="user in channelOnlineUsers">{{user.UserName}}
-        <input type="text" ng-model="messageContent"/>
-        <button ng-click="postPrivateMessage(user.UserName, user.ConnectionId, { Content: messageContent })">private chat</button></li>
+        <input type="text" ng-model="privateMessageContent"/>
+        <button ng-click="postPrivateMessage(user.UserName, user.ConnectionId, { Content: privateMessageContent })">private chat</button></li>
 </ul>
