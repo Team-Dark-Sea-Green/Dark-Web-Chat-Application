@@ -1,5 +1,5 @@
 ﻿app.controller('AuthenticationController', function(
-    $scope, $location, userService, notificationService, credentialsService) {
+    $scope, $location, authenticationService, notificationService, credentialsService) {
 
     $scope.register = function (registerData) {
 
@@ -22,7 +22,7 @@
             return notificationService.showErrorMessage('Missing email..');
         }
 
-        userService.Register(registerData,
+        authenticationService.Register(registerData,
             function(serverData) {
                 notificationService.showInfoMessage('Registration Successful.');
                 $scope.login({ userName: registerData.username, Password: registerData.password });
@@ -38,7 +38,7 @@
         }
         
         var loginString = 'grant_type=password&username='+loginData.userName+'&password='+loginData.Password;
-        userService.Login(loginString,
+        authenticationService.Login(loginString,
             function (serverData) {
                 notificationService.showInfoMessage('Login Successful.');
                 credentialsService.setSessionToken(serverData['access_token'], serverData['token_type']);

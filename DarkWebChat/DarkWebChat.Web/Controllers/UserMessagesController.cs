@@ -47,7 +47,7 @@
         [HttpPost]
         public IHttpActionResult PostUserMessage(string username, UserMessageBindingModel model)
         {
-            var loggedUser = this.User.Identity.GetUserId();
+            var loggedUser = this.User.Identity;
 
             if (loggedUser == null)
             {
@@ -70,7 +70,7 @@
                               {
                                   Content = model.Content, 
                                   IsFile = model.IsFile != 0, 
-                                  SenderId = loggedUser, 
+                                  SenderId = loggedUser.GetUserId(), 
                                   RecieverId = reciever.Id, 
                                   Date = DateTime.Now
                               };
@@ -78,7 +78,16 @@
             this.Data.UserMessages.Add(message);
             this.Data.SaveChanges();
 
-            return this.Ok(MessageViewModel.CreateSingleView(message));
+            return
+                this.Ok(
+                    new MessageViewModel
+                        {
+                            Content = message.Content,
+                            DateSent = message.Date,
+                            IsFile = message.IsFile,
+                            Sender = loggedUser.GetUserName(),
+                            Reciver = reciever.UserName,
+                        });
         }
     }
 }

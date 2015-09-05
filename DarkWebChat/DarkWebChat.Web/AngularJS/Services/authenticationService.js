@@ -1,4 +1,4 @@
-app.factory('userService', function ($http, baseUrl) {
+app.factory('authenticationService', function ($http, baseUrl) {
     var serviceUrl = baseUrl + 'Account';
 
     function Register(registerData, success, error) {

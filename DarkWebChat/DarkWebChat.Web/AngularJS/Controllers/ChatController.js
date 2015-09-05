@@ -1,21 +1,15 @@
-﻿app.controller("ChannelController",
-    function ($scope, $routeParams, chatHub, channelMessagesService, notificationService, credentialsService) {
+﻿app.controller("ChatController",
+    function ($scope, $routeParams, chatHub, channelMessagesService, userMessagesService, notificationService, credentialsService) {
 
-        //SignalR functions
-        chatHub.client.messageReceived = function(message) {
-            $scope.channelMessages.push(message);
-            $scope.$apply();
-        }
-
+        // SignalR functions
         chatHub.client.onConnected = function (channelOnlineUsers) {
-            $scope.channelOnlineUsers = SortAlphabeticaly(channelOnlineUsers);
+            $scope.channelOnlineUsers = sortAlphabeticaly(channelOnlineUsers);
             $scope.$apply();
-            console.log(channelOnlineUsers);
         }
         
         chatHub.client.onNewUserConnected = function (id, username) {
             $scope.channelOnlineUsers.push({ "ConnectionId": id, "UserName": username });
-            SortAlphabeticaly($scope.channelOnlineUsers);
+            sortAlphabeticaly($scope.channelOnlineUsers);
             $scope.$apply();
             notificationService.showInfoMessage(username + " connected");
         }
@@ -27,8 +21,17 @@
                         return el.UserName !== username;
                     });
 
-            $scope.channelOnlineUsers = SortAlphabeticaly(set);
+            $scope.channelOnlineUsers = sortAlphabeticaly(set);
             $scope.$apply();
+        }
+
+        chatHub.client.messageReceived = function (message) {
+            $scope.channelMessages.push(message);
+            $scope.$apply();
+        }
+
+        chatHub.client.onPrivateMessageRecieved = function (fromUserConnetionId, fromUserName, message) {
+            console.log(message);
         }
 
         $.connection.hub.stop();
@@ -36,7 +39,7 @@
             chatHub.server.joinChannel(credentialsService.getUsername(), $routeParams.channelName);
         });
 
-        //Auto-call-functions
+        // Auto-call-functions
         GetChannelMessages($routeParams.channelName);
         function GetChannelMessages(channelName) {
             channelMessagesService.GetChannelMessages(channelName, { Authorization: credentialsService.getSessionToken() },
@@ -61,8 +64,20 @@
                 });
         }
 
+        $scope.postPrivateMessage = function (username, userConnectionId, userMessageData) {
+            userMessageData.isFile = 0;
+            userMessagesService.PostUserMessage(username, userMessageData,
+                { Authorization: credentialsService.getSessionToken() },
+                function(serverData) {
+                    chatHub.server.sendPrivateMessage(userConnectionId, JSON.stringify(serverData), $routeParams.channelName);
+                },
+                function(serverError) {
+                    notificationService.showErrorMessage(JSON.stringify(serverError));
+                });
+        }
+
         // Functions
-        function SortAlphabeticaly(array) {
+        function sortAlphabeticaly(array) {
 
             var sortedArray = array.sort(function (a, b) {
                 var userA = a.UserName.toUpperCase();

@@ -15,6 +15,8 @@
 
         public string Sender { get; set; }
 
+        public string Reciver { get; set; }
+
         public bool IsFile { get; set; }
 
         public static Expression<Func<UserMessage, MessageViewModel>> Create
@@ -29,6 +31,7 @@
                             Id = message.Id, 
                             IsFile = message.IsFile, 
                             Sender = message.Sender.UserName, 
+                            Reciver = message.Reciever.UserName, 
                             Content = message.Content
                         };
             }
@@ -40,7 +43,8 @@
                        {
                            DateSent = message.Date, 
                            IsFile = message.IsFile, 
-                           Sender = message.Sender.UserName, 
+                           Sender = message.Sender.UserName,
+                           Reciver = message.Reciever.UserName,
                            Content = message.Content
                        };
         }

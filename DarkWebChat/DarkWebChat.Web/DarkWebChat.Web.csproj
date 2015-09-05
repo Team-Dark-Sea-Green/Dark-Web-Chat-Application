@@ -240,13 +240,16 @@
   <ItemGroup>
     <Content Include="AngularJS\app.js" />
     <Content Include="AngularJS\Controllers\AuthenticationController.js" />
-    <Content Include="AngularJS\Controllers\ChannelController.js" />
+    <Content Include="AngularJS\Controllers\ChatController.js" />
     <Content Include="AngularJS\Controllers\MainController.js" />
+    <Content Include="AngularJS\Controllers\UserController.js" />
     <Content Include="AngularJS\Directives\fileRead.js" />
+    <Content Include="AngularJS\Services\channelMessagesService.js" />
     <Content Include="AngularJS\Services\channelService.js" />
     <Content Include="AngularJS\Services\credentialsService.js" />
     <Content Include="AngularJS\Services\notificationService.js" />
-    <Content Include="AngularJS\Services\userService.js" />
+    <Content Include="AngularJS\Services\authenticationService.js" />
+    <Content Include="AngularJS\Services\userMessagesService.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />

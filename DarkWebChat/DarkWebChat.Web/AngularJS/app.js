@@ -13,8 +13,10 @@ app.run(function ($rootScope, $route, $location) {
 
     $rootScope.$watch(function () { return $location.path() }, function (newLocation, oldLocation) {
         if ($rootScope.actualLocation === newLocation) {
-            var channelName = oldLocation.split('/').pop();
-            connection.server.leaveChannel(channelName);
+            var routeParams = oldLocation.split('/');
+            if (routeParams[1] === 'channel') {
+                connection.server.leaveChannel(routeParams[2]);
+            }
         }
     });
 });
@@ -35,7 +37,7 @@ app.config(['$routeProvider', function (routeProvider) {
         })
         .when('/channel/:channelName', {
             templateUrl: 'Partials/chat-channel-window.html',
-            controller: 'ChannelController'
+            controller: 'ChatController'
         })
         .otherwise({
             redirectTo: '/'

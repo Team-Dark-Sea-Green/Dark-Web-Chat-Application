@@ -15,7 +15,6 @@ app.factory('userMessagesService', function ($http, baseUrl) {
             }).error(error);
     }
 
-
     return {
         GetUserMessages: GetUserMessages,
         PostUserMessage: PostUserMessage

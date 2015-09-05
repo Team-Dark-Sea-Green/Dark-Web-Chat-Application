@@ -21,14 +21,14 @@
                 channelsOnlineUsers[channelName] = new List<UserDetail>(); 
             }
 
+            // send to caller
+            this.Clients.Caller.onConnected(channelsOnlineUsers[channelName]);
+
             channelsOnlineUsers[channelName].Add(
                new UserDetail() { ConnectionId = this.Context.ConnectionId, UserName = userName });
 
             var id = this.Context.ConnectionId;
             
-            // send to caller
-            this.Clients.Caller.onConnected(channelsOnlineUsers[channelName]);
-
             // send to all in group except caller client
             this.Clients.OthersInGroup(channelName).onNewUserConnected(id, userName);
             return this.Groups.Add(this.Context.ConnectionId, channelName);
@@ -36,16 +36,16 @@
 
         public Task LeaveChannel(string channelName)
         {
-            var user = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == this.Context.ConnectionId);
+            var connectionId = this.Context.ConnectionId;
+            var user = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == connectionId);
             if (user != null)
             {
                 channelsOnlineUsers[channelName].Remove(user);
 
-                var id = this.Context.ConnectionId;
                 this.Clients.All.onUserDisconnected(user.UserName);
             }
 
-            return this.Groups.Remove(this.Context.ConnectionId, channelName);
+            return this.Groups.Remove(connectionId, channelName);
         }
 
         public void SendMessageToGroup(string message, string channelName)
@@ -54,20 +54,20 @@
             this.Clients.Group(channelName).messageReceived(message);
         }
 
-        public void SendPrivateMessage(string toUserId, string message, string channelName)
+        public void SendPrivateMessage(string toUserConnetionId, string message, string channelName)
         {
-            string fromUserId = this.Context.ConnectionId;
+            string fromUserConnetionId = this.Context.ConnectionId;
 
-            var toUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == toUserId);
-            var fromUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == fromUserId);
+            var toUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == toUserConnetionId);
+            var fromUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == fromUserConnetionId);
 
             if (toUser != null && fromUser != null)
             {
                 // send to 
-                this.Clients.Client(toUserId).sendPrivateMessage(fromUserId, fromUser.UserName, message);
+                this.Clients.Client(toUserConnetionId).onPrivateMessageRecieved(fromUserConnetionId, fromUser.UserName, message);
 
                 // send to caller user
-                this.Clients.Caller.sendPrivateMessage(toUserId, fromUser.UserName, message);
+                this.Clients.Caller.onSentPrivateMessage(toUserConnetionId, fromUser.UserName, message);
             }
         }
 
