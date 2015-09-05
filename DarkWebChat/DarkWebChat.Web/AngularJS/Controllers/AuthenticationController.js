@@ -25,9 +25,7 @@
         userService.Register(registerData,
             function(serverData) {
                 notificationService.showInfoMessage('Registration Successful.');
-                credentialsService.setSessionToken(serverData['access_token'], serverData['token_type']);
-                credentialsService.setUsername(serverData['userName']);
-                $location.path('/chat-main');
+                $scope.login({ userName: registerData.username, Password: registerData.password });
             },
             function(serverError) {
                 notificationService.showErrorMessage(JSON.stringify(serverError));

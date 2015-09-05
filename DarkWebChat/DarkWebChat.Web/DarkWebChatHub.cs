@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Microsoft.AspNet.SignalR;
-
-namespace DarkWebChat.Web
+﻿namespace DarkWebChat.Web
 {
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.AspNet.SignalR;
+
     using Microsoft.AspNet.SignalR.Hubs;
 
     using SignalRChat.Common;
@@ -13,57 +12,78 @@ namespace DarkWebChat.Web
     [HubName("DarkWebChatHub")]
     public class DarkWebChatHub : Hub
     {
-        static List<UserDetail> ConnectedUsers = new List<UserDetail>();
+        private static Dictionary<string, List<UserDetail>> channelsOnlineUsers = new Dictionary<string, List<UserDetail>>();
 
-        public void Connect(string userName)
+        public Task JoinChannel(string userName, string channelName)
         {
-            var id = Context.ConnectionId;
-
-
-            if (ConnectedUsers.Count(x => x.ConnectionId == id) == 0)
+            if (!channelsOnlineUsers.ContainsKey(channelName))
             {
-                ConnectedUsers.Add(new UserDetail { ConnectionId = id, UserName = userName });
-
-                // send to caller
-                Clients.Caller.onConnected(id, userName, ConnectedUsers);
-
-                // send to all except caller client
-                Clients.AllExcept(id).onNewUserConnected(id, userName);
+                channelsOnlineUsers[channelName] = new List<UserDetail>(); 
             }
+
+            channelsOnlineUsers[channelName].Add(
+               new UserDetail() { ConnectionId = this.Context.ConnectionId, UserName = userName });
+
+            var id = this.Context.ConnectionId;
+            
+            // send to caller
+            this.Clients.Caller.onConnected(channelsOnlineUsers[channelName]);
+
+            // send to all in group except caller client
+            this.Clients.OthersInGroup(channelName).onNewUserConnected(id, userName);
+            return this.Groups.Add(this.Context.ConnectionId, channelName);
         }
 
-        public void SendMessageToAll(string message)
+        public Task LeaveChannel(string channelName)
+        {
+            var user = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == this.Context.ConnectionId);
+            if (user != null)
+            {
+                channelsOnlineUsers[channelName].Remove(user);
+
+                var id = this.Context.ConnectionId;
+                this.Clients.All.onUserDisconnected(user.UserName);
+            }
+
+            return this.Groups.Remove(this.Context.ConnectionId, channelName);
+        }
+
+        public void SendMessageToGroup(string message, string channelName)
         {
             // Broad cast message
-            Clients.All.messageReceived(message);
+            this.Clients.Group(channelName).messageReceived(message);
         }
 
-        public void SendPrivateMessage(string toUserId, string message)
+        public void SendPrivateMessage(string toUserId, string message, string channelName)
         {
-            string fromUserId = Context.ConnectionId;
+            string fromUserId = this.Context.ConnectionId;
 
-            var toUser = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == toUserId);
-            var fromUser = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == fromUserId);
+            var toUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == toUserId);
+            var fromUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == fromUserId);
 
             if (toUser != null && fromUser != null)
             {
                 // send to 
-                Clients.Client(toUserId).sendPrivateMessage(fromUserId, fromUser.UserName, message);
+                this.Clients.Client(toUserId).sendPrivateMessage(fromUserId, fromUser.UserName, message);
 
                 // send to caller user
-                Clients.Caller.sendPrivateMessage(toUserId, fromUser.UserName, message);
+                this.Clients.Caller.sendPrivateMessage(toUserId, fromUser.UserName, message);
             }
         }
 
-        public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
+        public override Task OnDisconnected(bool stopCalled)
         {
-            var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-            if (item != null)
-            {
-                ConnectedUsers.Remove(item);
+            var connectionId = this.Context.ConnectionId;
 
-                var id = Context.ConnectionId;
-                Clients.All.onUserDisconnected(id, item.UserName);
+            foreach (var channel in channelsOnlineUsers.Keys)
+            {
+                var user = channelsOnlineUsers[channel].FirstOrDefault(u => u.ConnectionId == connectionId);
+                if (user != null)
+                {
+                    channelsOnlineUsers[channel].Remove(user);
+
+                    this.Clients.All.onUserDisconnected(user.UserName);
+                }
             }
 
             return base.OnDisconnected(stopCalled);

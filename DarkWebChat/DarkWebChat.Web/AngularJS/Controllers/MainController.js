@@ -1,4 +1,4 @@
-﻿app.controller("MainController", function ($scope, channelService, notificationService, credentialsService) {
+﻿app.controller("MainController", function ($scope, chatHub, channelService, notificationService, credentialsService) {
 
     //Auto-call-functions
     GetChannels();

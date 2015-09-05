@@ -1,10 +1,27 @@
 ﻿var app = angular.module('DarkWebChat', ['ngRoute']);
 
+var connection = $.connection.DarkWebChatHub;
+app.value('chatHub', connection);
+
+app.run(function ($rootScope, $route, $location) {
+    //Bind the `$locationChangeSuccess` event on the rootScope, so that we dont need to 
+    //bind in induvidual controllers.
+
+    $rootScope.$on('$locationChangeSuccess', function () {
+        $rootScope.actualLocation = $location.path();
+    });
+
+    $rootScope.$watch(function () { return $location.path() }, function (newLocation, oldLocation) {
+        if ($rootScope.actualLocation === newLocation) {
+            var channelName = oldLocation.split('/').pop();
+            connection.server.leaveChannel(channelName);
+        }
+    });
+});
+
 app.constant('baseUrl',
     'http://localhost:61714/api/'
 );
-
-app.value('chatHub', $.connection.DarkWebChatHub);
 
 app.config(['$routeProvider', function (routeProvider) {
     routeProvider

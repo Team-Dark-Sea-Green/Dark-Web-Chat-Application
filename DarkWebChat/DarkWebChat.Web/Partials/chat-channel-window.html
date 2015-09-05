@@ -8,7 +8,5 @@
         <input type="text" ng-model="messageContent" value="" placeholder="Message.." /><br/>
         <input ng-click="postChannelMessage({Content: messageContent})" type="submit"/>
     </div>
-    <div class="channel-users">
-    
-    </div>
+    <div class="online-users" ng-include="'Partials/chat-users-list.html'"></div>
 </div>

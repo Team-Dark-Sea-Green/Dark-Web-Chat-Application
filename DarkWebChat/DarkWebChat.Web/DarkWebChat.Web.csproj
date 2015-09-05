@@ -246,7 +246,6 @@
     <Content Include="AngularJS\Services\channelService.js" />
     <Content Include="AngularJS\Services\credentialsService.js" />
     <Content Include="AngularJS\Services\notificationService.js" />
-    <Content Include="AngularJS\Services\signalRService.js" />
     <Content Include="AngularJS\Services\userService.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
@@ -259,6 +258,7 @@
     <Content Include="Partials\chat-channel-window.html" />
     <Content Include="Partials\chat-main-window.html" />
     <Content Include="Partials\chat-private-window.html" />
+    <Content Include="Partials\chat-users-list.html" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\bootstrap.js" />
