@@ -9,7 +9,7 @@
     {
         public int Id { get; set; }
 
-        public string Content { get; set; }
+        public string Text { get; set; }
 
         public DateTime DateSent { get; set; }
 
@@ -32,7 +32,7 @@
                             FileContent = message.FileContent, 
                             Sender = message.Sender.UserName, 
                             Reciever = message.Reciever.UserName, 
-                            Content = message.Content
+                            Text = message.Text
                         };
             }
         }
@@ -41,11 +41,11 @@
         {
             return new MessageViewModel
                        {
-                           DateSent = message.Date, 
+                           DateSent = message.Date,
+                           Text = message.Text,
                            FileContent = message.FileContent, 
                            Sender = message.Sender.UserName,
                            Reciever = message.Reciever.UserName,
-                           Content = message.Content
                        };
         }
     }

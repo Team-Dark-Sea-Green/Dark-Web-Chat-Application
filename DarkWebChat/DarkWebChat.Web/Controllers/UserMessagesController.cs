@@ -68,7 +68,7 @@
 
             var message = new UserMessage
                               {
-                                  Content = model.Content, 
+                                  Text = model.Text, 
                                   FileContent = model.FileContent, 
                                   SenderId = loggedUser.GetUserId(), 
                                   RecieverId = reciever.Id, 
@@ -82,7 +82,7 @@
                 this.Ok(
                     new MessageViewModel
                         {
-                            Content = message.Content,
+                            Text = message.Text,
                             DateSent = message.Date,
                             FileContent = message.FileContent,
                             Sender = loggedUser.GetUserName(),

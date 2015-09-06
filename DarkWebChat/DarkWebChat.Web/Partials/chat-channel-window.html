@@ -5,11 +5,11 @@
         </ul>
     </div>
     <div class="post-channel-message">
-        <input type="text" ng-model="channelMessageContent" placeholder="Message.."/>
+        <input type="text" ng-model="channelMessageText" placeholder="Message.."/>
         <input type="file" fileRead="attachedFile" />
 
         <input ng-click="postChannelMessage({   
-                                                Content: channelMessageContent, 
+                                                Text: channelMessageText, 
                                                 FileContent: attachedFile.src, 
                                                 Size: attachedFile.size 
                                             })" type="submit"/>

@@ -50,13 +50,13 @@ namespace DarkWebChat.Data.Migrations
                 {
                     new ChannelMessage()
                     {
-                        Content = "Wassup Bats!?",
+                        Text = "Wassup Bats!?",
                         Date = DateTime.Now,
                         Sender = context.Users.FirstOrDefault(u => u.UserName == "Robin"),
                     },
                     new ChannelMessage()
                     {
-                        Content = "I'm Batman!",
+                        Text = "I'm Batman!",
                         Date = DateTime.Now,
                         Sender = context.Users.FirstOrDefault(u => u.UserName == "Batman"),
                     }

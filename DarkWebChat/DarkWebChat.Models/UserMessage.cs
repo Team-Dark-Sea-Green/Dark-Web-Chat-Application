@@ -15,7 +15,7 @@ namespace DarkWebChat.Models
         public int Id { get; set; }
 
         [Required]
-        public string Content { get; set; }
+        public string Text { get; set; }
 
         public string FileContent { get; set; }
 

@@ -53,8 +53,8 @@
 
         // Event-handlers
         $scope.postChannelMessage = function (channelMessageData) {
-            if (channelMessageData.Content === undefined && channelMessageData.FileContent !== undefined) {
-                channelMessageData.Content = "File";
+            if (channelMessageData.Text === undefined && channelMessageData.FileContent !== undefined) {
+                channelMessageData.Text = "File";
             } channelMessagesService.PostChannelMessage($routeParams.channelName, channelMessageData,
                 { Authorization: credentialsService.getSessionToken() },
                 function(serverData) {
@@ -66,8 +66,8 @@
         }
 
         $scope.postPrivateMessage = function (username, userConnectionId, userMessageData) {
-            if (userMessageData.Content === undefined && userMessageData.FileContent !== undefined) {
-                userMessageData.Content = "File";
+            if (userMessageData.Text === undefined && userMessageData.FileContent !== undefined) {
+                userMessageData.Text = "File";
             }
             userMessagesService.PostUserMessage(username, userMessageData,
                 { Authorization: credentialsService.getSessionToken() },

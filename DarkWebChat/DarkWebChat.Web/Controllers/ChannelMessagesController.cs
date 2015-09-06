@@ -58,7 +58,7 @@
                          new MessageViewModel
                          {
                              Id = m.Id,
-                             Content = m.Content,
+                             Text = m.Text,
                              DateSent = m.Date,
                              Sender = (m.Sender != null) ? m.Sender.UserName : null,
                              FileContent = m.FileContent
@@ -96,7 +96,7 @@
 
             var message = new ChannelMessage
                               {
-                                  Content = channelMessageData.Content, 
+                                  Text = channelMessageData.Text, 
                                   FileContent = channelMessageData.FileContent, 
                                   ChannelId = channel.Id, 
                                   Date = DateTime.Now, 
@@ -109,7 +109,7 @@
                 this.Ok(new MessageViewModel
                 {
                     Id = message.Id,
-                    Content = message.Content,
+                    Text = message.Text,
                     DateSent = message.Date,
                     Sender = message.Sender.UserName,
                     FileContent = message.FileContent
