@@ -11,4 +11,16 @@
                 notificationService.showErrorMessage(JSON.stringify(serverError));
             });
     }
+
+    // Event-handlers
+    $scope.addNewChannel = function(channelData) {
+        channelService.AddChannel(channelData,
+               { Authorization: credentialsService.getSessionToken() },
+               function (serverData) {
+                   $scope.channels.push(serverData);
+               },
+               function (serverError) {
+                   notificationService.showErrorMessage(JSON.stringify(serverError));
+               });
+    }
 });

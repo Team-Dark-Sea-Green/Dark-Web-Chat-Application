@@ -1,7 +1,9 @@
 ﻿<div>
     <ul>
-        <li  ng-repeat="channel in channels">
+        <li ng-repeat="channel in channels">
             <a href="#/channel/{{channel.name}}">{{channel.name}}</a>
         </li>
     </ul>
+    <input type="text" ng-model="newChannelName" placeholder="Add new channel"/>
+    <button ng-click="addNewChannel({name: newChannelName})">Add</button>
 </div>
