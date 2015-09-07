@@ -1,18 +1,20 @@
-﻿<div class="channel-window">
+﻿<aside class="online-users" style="border: 1px solid black" ng-include="'Partials/chat-users-list.html'"></aside>
+<section class="channel-window">
     <div class="channel-messages">
-        <ul>
-            <li ng-repeat="channelMessage in channelMessages">{{channelMessage}}</li>
-        </ul>
+        <div ng-repeat="channelMessage in channelMessages" class="list-group">
+            <a href="" class="list-group-item">
+                <div class="date">{{channelMessage.dateSent | date}}</div>
+                <br>
+                {{channelMessage.sender}} said: {{channelMessage.text}}
+            </a>
+
+        </div>
     </div>
     <div class="post-channel-message">
-        <input type="text" ng-model="channelMessageText" placeholder="Message.."/>
-        <input type="file" fileRead="attachedFile" />
-
-        <input ng-click="postChannelMessage({   
-                                                Text: channelMessageText, 
-                                                FileContent: attachedFile.src, 
-                                                Size: attachedFile.size 
-                                            })" type="submit"/>
+        <input type="file" fileRead="channelMessageData.FileContent"/>
+        <input type="text" ng-model="channelMessageData.Text" placeholder="Message.." class="input-sm"/>
+        <input ng-click="postChannelMessage(channelMessageData)" type="submit" value="Send"
+               class="btn btn-success btn-sm"/>
     </div>
-    <div class="online-users"  style="border: 1px solid black" ng-include="'Partials/chat-users-list.html'"></div>
-</div>
+
+</section>

@@ -1,9 +1,9 @@
-﻿<div>
-    <ul>
-        <li ng-repeat="channel in channels">
-            <a href="#/channel/{{channel.name}}">{{channel.name}}</a>
-        </li>
-    </ul>
-    <input type="text" ng-model="newChannelName" placeholder="Add new channel"/>
-    <button ng-click="addNewChannel({name: newChannelName})">Add</button>
-</div>
+﻿<section id="channelsScreen">
+    <h2>Available Channels</h2>
+    <div ng-repeat="channel in channels" class="list-group">
+        <a href="#/channel/{{channel.name}}" class="list-group-item">{{channel.name}}</a>
+    </div>
+
+    <input type="text" ng-model="newChannelName" placeholder="Add new channel" class="input-sm"/>
+    <button ng-click="addNewChannel({name: newChannelName})" class="btn btn-success btn-sm">Add</button>
+</section>

@@ -19,3 +19,54 @@
      display: inline-block;
      width: 40%;
  }
+
+/*Channels screen*/
+#channelsScreen{
+    margin: 0 auto;
+    width: 40%;
+    text-align: center;
+}
+
+#channelsScreen > h2{
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+#channelsScreen > input{
+    width: 70%;
+}
+
+#channelsScreen > button{
+    width: 15%;
+}
+
+/*Channels screen*/
+.channel-window{
+    margin: 0 auto;
+    width: 40%;
+}
+
+.channel-window > .post-channel-message > input {
+     display: inline-block;
+ }
+
+.channel-window > .post-channel-message > input[type="file"] {
+    width: 35%;
+}
+
+.channel-window > .post-channel-message > input[type="text"] {
+    width: 50%;
+}
+
+.channel-window div.date {
+    font-size: 0.8em;
+}
+
+/*Online users*/
+aside{
+    float: left;
+}
+
+#onlineUsers{
+    padding: 5%;
+}

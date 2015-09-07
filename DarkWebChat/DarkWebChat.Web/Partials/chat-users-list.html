@@ -1,15 +1,13 @@
-﻿<h4>Online users: </h4>
-<ul>
-    <li ng-repeat="user in channelOnlineUsers">{{user.UserName}}
-        <input type="text" ng-model="privateMessageText"/>
-        <input type="file" fileRead="attachedFile"/>
-        <button ng-click="postPrivateMessage(
-                                                user.UserName, user.ConnectionId, 
-                                                {   Text: privateMessageText, 
-                                                    FileContent: attachedFile.src, 
-                                                    Size: attachedFile.size 
-                                                }
-                                            )">send
+﻿<section id="onlineUsers">
+    <h3>Online users: </h3>
+    <div ng-repeat="user in channelOnlineUsers" class="list-group">
+        <label>{{user.UserName}}</label>
+        <input type="file" fileRead="userMessageData.FileContent"/>
+        <input type="text" ng-model="userMessageData.Text" class="input-sm"/>
+        <button ng-click="postPrivateMessage(user.UserName, user.ConnectionId, userMessageData)"
+                class="btn btn-success btn-sm">
+            Send
         </button>
-    </li>
-</ul>
+    </div>
+</section>
+
