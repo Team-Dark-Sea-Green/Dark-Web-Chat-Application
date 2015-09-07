@@ -25,13 +25,13 @@
             $scope.$apply();
         }
 
-        chatHub.client.messageReceived = function (message) {
-            $scope.channelMessages.push(message);
+        chatHub.client.onChannelMessageReceived = function (message) {
+            $scope.channelMessages.push(JSON.parse(message));
             $scope.$apply();
         }
 
         chatHub.client.onPrivateMessageRecieved = function (fromUserConnetionId, message) {
-            console.log(message);
+            console.log(JSON.parse(message));
         }
 
         $.connection.hub.stop();
@@ -55,9 +55,9 @@
         $scope.postChannelMessage = function (channelMessageData) {
             var hasFile = false;
 
-            if (channelMessageData.FileContent !== undefined &&
-                    channelMessageData.FileContent !== null && channelMessageData.FileContent.trim() !== "") {
+            if (channelMessageData.FileContent !== undefined && channelMessageData.FileContent !== null) {
                 hasFile = true;
+                channelMessageData.FileContent = channelMessageData.FileContent.src;
             }
 
             if (channelMessageData.Text === undefined || channelMessageData.Text === null ||
@@ -67,7 +67,6 @@
             channelMessagesService.PostChannelMessage($routeParams.channelName, channelMessageData,
                 { Authorization: credentialsService.getSessionToken() },
                 function (serverData) {
-                    serverData.hasFile = hasFile;
                     chatHub.server.sendMessageToGroup(JSON.stringify(serverData), $routeParams.channelName);
                 },
                 function(serverError) {
@@ -78,9 +77,9 @@
         $scope.postPrivateMessage = function (username, userConnectionId, userMessageData) {
             var hasFile = false;
 
-            if (userMessageData.FileContent !== undefined &&
-                    userMessageData.FileContent !== null && userMessageData.FileContent.trim() !== "") {
+            if (userMessageData.FileContent !== undefined && userMessageData.FileContent !== null) {
                 hasFile = true;
+                userMessageData.FileContent = userMessageData.FileContent.src;
             }
 
             if (userMessageData.Text === undefined || userMessageData.Text === null ||
@@ -91,8 +90,7 @@
             userMessagesService.PostUserMessage(username, userMessageData,
                 { Authorization: credentialsService.getSessionToken() },
                 function (serverData) {
-                    serverData.hasFile = hasFile;
-                        chatHub.server.sendPrivateMessage(userConnectionId, JSON.stringify(serverData), $routeParams.channelName);
+                    chatHub.server.sendPrivateMessage(userConnectionId, JSON.stringify(serverData), $routeParams.channelName);
                 },
                 function(serverError) {
                     notificationService.showErrorMessage(JSON.stringify(serverError));

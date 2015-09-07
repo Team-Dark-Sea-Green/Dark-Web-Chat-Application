@@ -104,7 +104,7 @@
             var message = new UserMessage
                               {
                                   Text = model.Text, 
-                                  FileContent = model.FileContent, 
+                                  FileContent = model.FileContent,
                                   SenderId = loggedUser.GetUserId(), 
                                   RecieverId = reciever.Id, 
                                   Date = DateTime.Now
@@ -117,7 +117,9 @@
                 this.Ok(
                     new MessageViewModel
                         {
+                            Id = message.Id,
                             Text = message.Text,
+                            ContainsFile = message.FileContent == null ? 0 : 1,
                             DateSent = message.Date,
                             Sender = loggedUser.GetUserName(),
                             Reciever = reciever.UserName,

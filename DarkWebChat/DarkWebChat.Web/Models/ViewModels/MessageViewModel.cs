@@ -11,6 +11,8 @@
 
         public string Text { get; set; }
 
+        public int ContainsFile { get; set; }
+
         public DateTime DateSent { get; set; }
 
         public string Sender { get; set; }
@@ -26,8 +28,9 @@
                     new MessageViewModel
                         {
                             DateSent = message.Date, 
-                            Id = message.Id, 
-                            Sender = message.Sender.UserName, 
+                            Id = message.Id,
+                            ContainsFile = message.FileContent == null ? 0 : 1,
+                            Sender = message.Sender.UserName,
                             Reciever = message.Reciever.UserName, 
                             Text = message.Text
                         };
@@ -39,9 +42,11 @@
             return new MessageViewModel
                        {
                            DateSent = message.Date,
-                           Text = message.Text,
+                           Id = message.Id,
+                           ContainsFile = message.FileContent == null ? 0 : 1,
                            Sender = message.Sender.UserName,
                            Reciever = message.Reciever.UserName,
+                           Text = message.Text
                        };
         }
     }

@@ -51,7 +51,7 @@
         public void SendMessageToGroup(string message, string channelName)
         {
             // Broad cast message
-            this.Clients.Group(channelName).messageReceived(message);
+            this.Clients.Group(channelName).onChannelMessageReceived(message);
         }
 
         public void SendPrivateMessage(string toUserConnetionId, string message, string channelName)

@@ -10,6 +10,7 @@
     using DarkWebChat.Web.Models.BindingModels;
     using DarkWebChat.Web.Models.ViewModels;
 
+    using Microsoft.Ajax.Utilities;
     using Microsoft.AspNet.Identity;
 
     [RoutePrefix("api")]
@@ -85,6 +86,7 @@
                              Id = m.Id,
                              Text = m.Text,
                              DateSent = m.Date,
+                             ContainsFile = m.FileContent == null ? 0 : 1,
                              Sender = (m.Sender != null) ? m.Sender.UserName : null
                          }));
         }
@@ -134,6 +136,7 @@
                 {
                     Id = message.Id,
                     Text = message.Text,
+                    ContainsFile = message.FileContent == null ? 0 : 1,
                     DateSent = message.Date,
                     Sender = message.Sender.UserName
                 });
