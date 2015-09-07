@@ -1,25 +1,30 @@
-﻿<div>
-    <p>Login</p>
-    <input type="text" ng-model="loginUsername" value="" placeholder="Username" /><br/>
-    <input type="text" ng-model="loginPassword" value="" placeholder="Password"/><br />
-    <button type="submit"
-            ng-click="login({userName: loginUsername, Password: loginPassword})">
-        Login
-    </button>
-</div>
-<div>
-    <p>Register</p>
-    <input type="text" ng-model="registerUsername" value="" placeholder="Username" /><br />
-    <input type="email" ng-model="registerEmail" value="" placeholder="Email" /><br />
-    <input type="password" ng-model="registerPassword" value="" placeholder="Password" /><br />
-    <input type="text" ng-model="registerRptPassword" value="" placeholder="Confirm-Password"/><br />
-    <button type="submit"
-            ng-click="register({
-                                    username : registerUsername,
-                                    email : registerEmail,
-                                    password : registerPassword,
-                                    confirmPassword : registerRptPassword
-                                })">
+﻿<nav id="loginScreen" class="navbar navbar-fixed-top" role="navigation">
+    <ul class="nav navbar-nav" >
+        <li>
+            <img ng-src="../Images/logo.png" width="200px" height="60px" style="margin: 5px">
+        </li>
+    </ul>
+    <form class="navbar-form navbar-right login-form">
+        <label>Username</label>
+        <input type="text" ng-model="loginData.userName" value="" placeholder="Username" class="form-control input-sm"/>
+        <label>Password</label>
+        <input type="password" ng-model="loginData.Password" value="" placeholder="Password" class="form-control input-sm"/>
+        <button type="submit" ng-click="login(loginData)" class="btn btn-primary btn-sm">
+            Login
+        </button>
+    </form>
+</nav>
+<section id="registerScreen">
+    <h2>Register</h2>
+    <label>Username</label><br />
+    <input type="text" ng-model="registerData.username" value="" placeholder="Username" class="form-control input-sm"/><br />
+    <label>Email</label><br />
+    <input type="email" ng-model="registerData.email" value="" placeholder="Email" class="form-control input-sm"/><br />
+    <label>Password</label><br />
+    <input type="password" ng-model="registerData.password" value="" placeholder="Password" class="form-control input-sm"/><br />
+    <label>Confirm Password</label><br />
+    <input type="password" ng-model="registerData.confirmPassword" value="" placeholder="Confirm-Password"class="form-control input-sm"/><br />
+    <button type="submit" ng-click="register(registerData)" class="btn btn-primary btn-sm">
         Register
     </button>
-</div>
+</section>

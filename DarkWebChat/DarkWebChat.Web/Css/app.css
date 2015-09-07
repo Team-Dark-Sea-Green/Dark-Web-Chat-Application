@@ -1,0 +1,21 @@
+/*Welcome page*/
+/*Register screen*/
+#registerScreen{
+    margin: 10% auto;
+    width: 25%;
+    text-align: center;
+}
+
+#registerScreen > input{
+    margin-bottom: 2%;
+}
+
+/*Login screen*/
+.login-form{
+    display: inline-block;
+    margin-right: 3%;
+}
+.login-form > input{
+     display: inline-block;
+     width: 40%;
+ }

@@ -9,7 +9,7 @@
         if (!registerData.password) {
             return notificationService.showErrorMessage('Missing password..');
         }
-        if (registerData.password.length < 6 || registerData.password.length > 100) {
+        if (registerData.password.length < 4 || registerData.password.length > 100) {
             return notificationService.showErrorMessage('Password should be between 6 and 100 characters long');
         }
         if (!registerData.confirmPassword) {
