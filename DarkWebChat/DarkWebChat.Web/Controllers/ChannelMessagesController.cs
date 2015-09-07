@@ -20,6 +20,31 @@
         {
         }
 
+        // GET api/channel-messages/message/{id}
+        [HttpGet]
+        [Route("channel-messages/message/{id}")]
+        public IHttpActionResult GetChannelMessage(int id)
+        {
+            var message = this.Data.ChannelMessages.All().FirstOrDefault(m => m.Id == id);
+
+            if (message == null)
+            {
+                return this.NotFound();
+            }
+
+            return
+                 this.Ok(
+                     new
+                         {
+                             Id = message.Id,
+                             Text = message.Text,
+                             DateSent = message.Date,
+                             FileContent = message.FileContent,
+                             Sender = (message.Sender != null) ? message.Sender.UserName : null,
+                         });
+        }
+
+
         // GET api/channel-messages/{channelName}
         [HttpGet]
         [Route("channel-messages/{channelName}")]
@@ -60,8 +85,7 @@
                              Id = m.Id,
                              Text = m.Text,
                              DateSent = m.Date,
-                             Sender = (m.Sender != null) ? m.Sender.UserName : null,
-                             FileContent = m.FileContent
+                             Sender = (m.Sender != null) ? m.Sender.UserName : null
                          }));
         }
 
@@ -111,8 +135,7 @@
                     Id = message.Id,
                     Text = message.Text,
                     DateSent = message.Date,
-                    Sender = message.Sender.UserName,
-                    FileContent = message.FileContent
+                    Sender = message.Sender.UserName
                 });
         }
     }

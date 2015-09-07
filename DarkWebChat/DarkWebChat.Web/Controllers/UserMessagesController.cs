@@ -19,6 +19,41 @@
         {
         }
 
+        // GET api/user-messages/message/{id}
+        [Route("api/user-messages/message/{id}")]
+        [HttpGet]
+        public IHttpActionResult GetUserMessage(int id)
+        {
+            var loggedUser = this.User.Identity.GetUserId();
+
+            if (loggedUser == null)
+            {
+                return this.Unauthorized();
+            }
+
+            var message = this.Data.UserMessages.All().FirstOrDefault(um => um.Id == id);
+
+            if (message == null)
+            {
+                return this.NotFound();
+            }
+
+            if (message.RecieverId != loggedUser)
+            {
+                return this.Unauthorized();
+            }
+
+            return this.Ok(new
+            {
+                Id = message.Id,
+                Text = message.Text,
+                DateSent = message.Date,
+                FileContent = message.FileContent,
+                Sender = (message.Sender != null) ? message.Sender.UserName : null,
+                Reciever = (message.Reciever != null) ? message.Reciever.UserName : null
+            });
+        }
+
         // GET api/user-messages/{username}
         [Route("api/user-messages/{username}")]
         [HttpGet]
@@ -84,7 +119,6 @@
                         {
                             Text = message.Text,
                             DateSent = message.Date,
-                            FileContent = message.FileContent,
                             Sender = loggedUser.GetUserName(),
                             Reciever = reciever.UserName,
                         });

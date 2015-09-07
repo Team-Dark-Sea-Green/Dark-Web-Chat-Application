@@ -53,11 +53,21 @@
 
         // Event-handlers
         $scope.postChannelMessage = function (channelMessageData) {
-            if (channelMessageData.Text === undefined && channelMessageData.FileContent !== undefined) {
-                channelMessageData.Text = "File";
-            } channelMessagesService.PostChannelMessage($routeParams.channelName, channelMessageData,
+            var hasFile = false;
+
+            if (channelMessageData.FileContent !== undefined &&
+                    channelMessageData.FileContent !== null && channelMessageData.FileContent.trim() !== "") {
+                hasFile = true;
+            }
+
+            if (channelMessageData.Text === undefined || channelMessageData.Text === null ||
+                    channelMessageData.Text.trim() === "" && hasFile === true) {
+                channelMessageData.Text = "File only";
+            }
+            channelMessagesService.PostChannelMessage($routeParams.channelName, channelMessageData,
                 { Authorization: credentialsService.getSessionToken() },
-                function(serverData) {
+                function (serverData) {
+                    serverData.hasFile = hasFile;
                     chatHub.server.sendMessageToGroup(JSON.stringify(serverData), $routeParams.channelName);
                 },
                 function(serverError) {
@@ -66,12 +76,22 @@
         }
 
         $scope.postPrivateMessage = function (username, userConnectionId, userMessageData) {
-            if (userMessageData.Text === undefined && userMessageData.FileContent !== undefined) {
-                userMessageData.Text = "File";
+            var hasFile = false;
+
+            if (userMessageData.FileContent !== undefined &&
+                    userMessageData.FileContent !== null && userMessageData.FileContent.trim() !== "") {
+                hasFile = true;
             }
+
+            if (userMessageData.Text === undefined || userMessageData.Text === null ||
+                    userMessageData.Text.trim() === "" && hasFile === true) {
+                userMessageData.Text = "File only";
+            }
+
             userMessagesService.PostUserMessage(username, userMessageData,
                 { Authorization: credentialsService.getSessionToken() },
                 function (serverData) {
+                    serverData.hasFile = hasFile;
                         chatHub.server.sendPrivateMessage(userConnectionId, JSON.stringify(serverData), $routeParams.channelName);
                 },
                 function(serverError) {
