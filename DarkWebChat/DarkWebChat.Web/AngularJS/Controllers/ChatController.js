@@ -1,5 +1,6 @@
 ﻿app.controller("ChatController",
-    function ($scope, $routeParams, chatHub, channelMessagesService, userMessagesService, notificationService, credentialsService) {
+    function ($scope, $routeParams, $window, chatHub, channelMessagesService,
+        userMessagesService, notificationService, credentialsService) {
 
         // SignalR functions
         chatHub.client.onConnected = function (channelOnlineUsers) {
@@ -52,8 +53,42 @@
         }
 
         // Event-handlers
+        $scope.getChannelMessageById = function(id) {
+            channelMessagesService.GetChannelMessageById(id, { Authorization: credentialsService.getSessionToken() },
+                function (serverData) {
+                    var base64String = serverData.fileContent.match(',(.+)')[1];
+                    var fileType = serverData.fileContent.match(':(.+);');
+                    if (fileType != null) {
+                        fileType = fileType[1];
+                    } else {
+                        fileType = 'application/zip';
+                    }
+                    var blob = b64ToBlob(base64String, fileType);
+                    var blobUrl = URL.createObjectURL(blob);
+
+                    $window.open(blobUrl);
+                },
+                function (serverError) {
+                    notificationService.showErrorMessage(JSON.stringify(serverError));
+                });
+        }
+
+        $scope.getUserMessageById = function(id) {
+            userMessagesService.GetUserMessageById(id, { Authorization: credentialsService.getSessionToken() },
+                function (serverData) {
+                    $scope.userMessage = serverData;
+                },
+                function (serverError) {
+                    notificationService.showErrorMessage(JSON.stringify(serverError));
+                });
+        }
+
         $scope.postChannelMessage = function (channelMessageData) {
             var hasFile = false;
+
+            if (channelMessageData.FileContent.size > 1024 * 1024) {
+                return notificationService.showErrorMessage("File size must be up to 1MB.");
+            }
 
             if (channelMessageData.FileContent !== undefined && channelMessageData.FileContent !== null) {
                 hasFile = true;
@@ -107,5 +142,29 @@
             });
 
             return sortedArray;
+        }
+
+        function b64ToBlob(b64Data, contentType, sliceSize) {
+            contentType = contentType || '';
+            sliceSize = sliceSize || 512;
+
+            var byteCharacters = atob(b64Data);
+            var byteArrays = [];
+
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+
+                var byteArray = new Uint8Array(byteNumbers);
+
+                byteArrays.push(byteArray);
+            }
+
+            var blob = new Blob(byteArrays, { type: contentType });
+            return blob;
         }
 });

@@ -4,8 +4,9 @@
         <div ng-repeat="channelMessage in channelMessages" class="list-group">
             <a href="" class="list-group-item">
                 <div class="date">{{channelMessage.dateSent | date}}</div>
-                <br>
+                <br/>
                 {{channelMessage.sender}} said: {{channelMessage.text}}
+                <a href="" ng-if="channelMessage.containsFile" ng-click="getChannelMessageById(channelMessage.id)">Download attached file</a>
             </a>
 
         </div>

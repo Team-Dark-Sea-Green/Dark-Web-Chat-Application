@@ -8,6 +8,13 @@ app.factory('userMessagesService', function ($http, baseUrl) {
             }).error(error);
     }
 
+    function GetUserMessageById(id, headers, success, error) {
+        return $http.get(serviceUrl + '/message/' + id, { headers: headers })
+            .success(function (data, status, headers, config) {
+                success(data);
+            }).error(error);
+    }
+
     function PostUserMessage(userName, data, headers, success, error) {
         return $http.post(serviceUrl + '/' + userName, data, { headers: headers })
             .success(function (data, status, headers, config) {
@@ -17,6 +24,7 @@ app.factory('userMessagesService', function ($http, baseUrl) {
 
     return {
         GetUserMessages: GetUserMessages,
+        GetUserMessageById: GetUserMessageById,
         PostUserMessage: PostUserMessage
     }
 });

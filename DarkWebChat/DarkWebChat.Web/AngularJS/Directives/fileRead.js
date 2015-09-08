@@ -20,10 +20,7 @@ app.directive("fileread", ['notificationService',function (notificationService) 
                     reader.readAsDataURL(file);
                 } else {
                     scope.$apply(function () {
-                        scope.fileread = {
-                            src: undefined,
-                            size: undefined
-                        }
+                        scope.fileread = undefined;
                     });
                 }
             });
