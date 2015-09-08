@@ -76,7 +76,17 @@
         $scope.getUserMessageById = function(id) {
             userMessagesService.GetUserMessageById(id, { Authorization: credentialsService.getSessionToken() },
                 function (serverData) {
-                    $scope.userMessage = serverData;
+                    var base64String = serverData.fileContent.match(',(.+)')[1];
+                    var fileType = serverData.fileContent.match(':(.+);');
+                    if (fileType != null) {
+                        fileType = fileType[1];
+                    } else {
+                        fileType = 'application/zip';
+                    }
+                    var blob = b64ToBlob(base64String, fileType);
+                    var blobUrl = URL.createObjectURL(blob);
+
+                    $window.open(blobUrl);
                 },
                 function (serverError) {
                     notificationService.showErrorMessage(JSON.stringify(serverError));
