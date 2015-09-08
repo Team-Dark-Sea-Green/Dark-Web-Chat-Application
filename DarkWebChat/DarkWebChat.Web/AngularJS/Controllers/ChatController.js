@@ -95,20 +95,23 @@
 
         $scope.postChannelMessage = function (channelMessageData) {
             var hasFile = false;
-
-            if (channelMessageData.FileContent.size > 1024 * 1024) {
-                return notificationService.showErrorMessage("File size must be up to 1MB.");
-            }
+            var isMoreThanOneMb;
 
             if (channelMessageData.FileContent !== undefined && channelMessageData.FileContent !== null) {
                 hasFile = true;
+                isMoreThanOneMb = channelMessageData.FileContent.size > 1024 * 1024;
                 channelMessageData.FileContent = channelMessageData.FileContent.src;
+            }
+
+            if (hasFile === true && isMoreThanOneMb === true) {
+                return notificationService.showErrorMessage("File size must be up to 1MB.");
             }
 
             if (channelMessageData.Text === undefined || channelMessageData.Text === null ||
                     channelMessageData.Text.trim() === "" && hasFile === true) {
                 channelMessageData.Text = "File only";
             }
+
             channelMessagesService.PostChannelMessage($routeParams.channelName, channelMessageData,
                 { Authorization: credentialsService.getSessionToken() },
                 function (serverData) {
@@ -121,10 +124,16 @@
 
         $scope.postPrivateMessage = function (username, userConnectionId, userMessageData) {
             var hasFile = false;
+            var isMoreThanOneMb;
 
             if (userMessageData.FileContent !== undefined && userMessageData.FileContent !== null) {
                 hasFile = true;
+                isMoreThanOneMb = userMessageData.FileContent.size > 1024 * 1024;
                 userMessageData.FileContent = userMessageData.FileContent.src;
+            }
+
+            if (hasFile === true && isMoreThanOneMb === true) {
+                return notificationService.showErrorMessage("File size must be up to 1MB.");
             }
 
             if (userMessageData.Text === undefined || userMessageData.Text === null ||
