@@ -6,7 +6,6 @@
 
     using DarkWebChat.Data.UnitOfWork;
     using DarkWebChat.Models;
-    using DarkWebChat.Web.Controllers;
     using DarkWebChat.Web.Models.BindingModels;
     using DarkWebChat.Web.Models.ViewModels;
 

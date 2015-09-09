@@ -7,6 +7,8 @@
             return 0;
         }
 
+        var defaultMessagesLimit = 5;
+
         // SignalR functions
         chatHub.client.onConnected = function (channelOnlineUsers) {
             $scope.channelOnlineUsers = channelOnlineUsers;
@@ -32,6 +34,11 @@
         }
 
         chatHub.client.onChannelMessageReceived = function (message) {
+            var messagesOnPage = $scope.channelMessages.length;
+            if (messagesOnPage >= 5) {
+                $scope.channelMessages.shift();
+            }
+
             $scope.channelMessages.push(JSON.parse(message));
             $scope.$apply();
         }
@@ -48,7 +55,8 @@
         // Auto-call-functions
         GetChannelMessages($routeParams.channelName);
         function GetChannelMessages(channelName) {
-            channelMessagesService.GetChannelMessages(channelName, { Authorization: credentialsService.getSessionToken() },
+            channelMessagesService.GetChannelMessages(channelName, defaultMessagesLimit,
+                { Authorization: credentialsService.getSessionToken() },
                 function (serverData) {
                     $scope.channelMessages = serverData;
                 },

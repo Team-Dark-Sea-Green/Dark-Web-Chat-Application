@@ -6,7 +6,6 @@
 
     using DarkWebChat.Data.UnitOfWork;
     using DarkWebChat.Models;
-    using DarkWebChat.Web.Controllers;
     using DarkWebChat.Web.Models.BindingModels;
     using DarkWebChat.Web.Models.ViewModels;
 
@@ -56,19 +55,34 @@
         // GET api/user-messages/{username}
         [Route("user-messages/{username}")]
         [HttpGet]
-        public IHttpActionResult GetAllUserMessages(string username)
+        public IHttpActionResult GetAllUserMessages(string username, [FromUri] string limit = null)
         {
             var loggedUserId = this.User.Identity.GetUserId();
 
-            var messages =
+            IQueryable<UserMessage> messages =
                 this.Data.UserMessages.All()
                     .Where(
                         um =>
                         (um.RecieverId == loggedUserId && um.Sender.UserName == username)
                         || um.SenderId == loggedUserId && um.Reciever.UserName == username)
-                    .Select(UserMessageViewModel.Create);
+                    .OrderBy(m => m.Date)
+                    .ThenByDescending(m => m.Id);
 
-            return this.Ok(messages);
+            if (limit != null)
+            {
+                int limitCount;
+                int.TryParse(limit, out limitCount);
+                if (limitCount >= 1 && limitCount <= 1000)
+                {
+                    messages = messages.Skip(Math.Max(0, messages.Count() - limitCount));
+                }
+                else
+                {
+                    return this.BadRequest("Limit should be integer in range [1..1000].");
+                }
+            }
+
+            return this.Ok(messages.Select(UserMessageViewModel.Create));
         }
 
         // POST api/user-messages/{username}

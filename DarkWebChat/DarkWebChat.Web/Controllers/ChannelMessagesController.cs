@@ -6,7 +6,6 @@
 
     using DarkWebChat.Data.UnitOfWork;
     using DarkWebChat.Models;
-    using DarkWebChat.Web.Controllers;
     using DarkWebChat.Web.Models.BindingModels;
     using DarkWebChat.Web.Models.ViewModels;
 
@@ -68,7 +67,7 @@
                 int.TryParse(limit, out limitCount);
                 if (limitCount >= 1 && limitCount <= 1000)
                 {
-                    messages = messages.Take(limitCount);
+                    messages = messages.Skip(Math.Max(0, messages.Count() - limitCount));
                 }
                 else
                 {

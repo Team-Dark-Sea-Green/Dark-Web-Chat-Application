@@ -1,8 +1,8 @@
 app.factory('userMessagesService', function ($http, baseUrl) {
     var serviceUrl = baseUrl + 'user-messages';
 
-    function GetUserMessages(userName, headers, success, error) {
-        return $http.get(serviceUrl + '/' + userName, { headers: headers })
+    function GetUserMessages(userName, limit, headers, success, error) {
+        return $http.get(serviceUrl + '/' + userName + '?limit=' + limit, { headers: headers })
             .success(function (data, status, headers, config) {
                 success(data);
             }).error(error);

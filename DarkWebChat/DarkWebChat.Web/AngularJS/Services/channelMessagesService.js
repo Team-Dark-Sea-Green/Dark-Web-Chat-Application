@@ -1,8 +1,8 @@
 app.factory('channelMessagesService', function ($http, baseUrl) {
     var serviceUrl = baseUrl + 'channel-messages';
 
-    function GetChannelMessages(channelName, headers, success, error) {
-        return $http.get(serviceUrl + '/' + channelName, { headers: headers })
+    function GetChannelMessages(channelName, limit, headers, success, error) {
+        return $http.get(serviceUrl + '/' + channelName + '?limit=' + limit, { headers: headers })
             .success(function (data, status, headers, config) {
                 success(data);
             }).error(error);
