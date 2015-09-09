@@ -1,31 +1,29 @@
 ﻿namespace DarkWebChat.Data.Repositories
 {
     using System.Data.Entity;
+    using System.Linq;
 
-    public class GenericEfRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class GenericEfRepository<TEntity> : IRepository<TEntity>
+        where TEntity : class
     {
-        private DbContext dbContext;
-        private IDbSet<TEntity> entitySet;
+        private readonly DbContext dbContext;
 
         public GenericEfRepository(DbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.entitySet = dbContext.Set<TEntity>();
+            this.EntitySet = dbContext.Set<TEntity>();
         }
 
-        public IDbSet<TEntity> EntitySet
-        {
-            get { return this.entitySet; }
-        }
+        public IDbSet<TEntity> EntitySet { get; }
 
-        public System.Linq.IQueryable<TEntity> All()
+        public IQueryable<TEntity> All()
         {
-            return this.entitySet;
+            return this.EntitySet;
         }
 
         public TEntity Find(object id)
         {
-            return this.entitySet.Find(id);
+            return this.EntitySet.Find(id);
         }
 
         public void Add(TEntity entity)
@@ -60,7 +58,7 @@
             var entry = this.dbContext.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
-                this.entitySet.Attach(entity);
+                this.EntitySet.Attach(entity);
             }
 
             entry.State = state;

@@ -1,6 +1,11 @@
 ﻿app.controller("ChatController",
-    function ($scope, $routeParams, $window, chatHub, channelMessagesService,
+    function ($scope, $routeParams, $window, $location, chatHub, channelMessagesService,
         userMessagesService, notificationService, credentialsService) {
+
+        if (!credentialsService.isLogged()) {
+            $location.path('/');
+            return 0;
+        }
 
         // SignalR functions
         chatHub.client.onConnected = function (channelOnlineUsers) {

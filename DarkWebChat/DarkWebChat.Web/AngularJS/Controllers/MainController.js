@@ -1,4 +1,9 @@
-﻿app.controller("MainController", function ($scope, chatHub, channelService, notificationService, credentialsService) {
+﻿app.controller("MainController", function ($scope, $location, chatHub, channelService, notificationService, credentialsService) {
+
+    if (!credentialsService.isLogged()) {
+        $location.path('/');
+        return 0;
+    }
 
     //Auto-call-functions
     GetChannels();

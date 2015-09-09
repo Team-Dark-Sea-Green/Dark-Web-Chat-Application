@@ -1,4 +1,4 @@
-﻿namespace DarkWebChat.RestServices.Controllers
+﻿namespace DarkWebChat.Web.Controllers
 {
     using System;
     using System.Linq;
@@ -10,9 +10,9 @@
     using DarkWebChat.Web.Models.BindingModels;
     using DarkWebChat.Web.Models.ViewModels;
 
-    using Microsoft.Ajax.Utilities;
     using Microsoft.AspNet.Identity;
 
+    [Authorize]
     [RoutePrefix("api")]
     public class ChannelMessagesController : BaseApiController
     {
@@ -34,17 +34,16 @@
             }
 
             return
-                 this.Ok(
-                     new
-                         {
-                             Id = message.Id,
-                             Text = message.Text,
-                             DateSent = message.Date,
-                             FileContent = message.FileContent,
-                             Sender = (message.Sender != null) ? message.Sender.UserName : null,
-                         });
+                this.Ok(
+                    new
+                        {
+                            message.Id, 
+                            message.Text, 
+                            DateSent = message.Date, 
+                            message.FileContent, 
+                            Sender = (message.Sender != null) ? message.Sender.UserName : null
+                        });
         }
-
 
         // GET api/channel-messages/{channelName}
         [HttpGet]
@@ -77,18 +76,7 @@
                 }
             }
 
-            return
-                 this.Ok(
-                     messages.Select(
-                         m =>
-                         new MessageViewModel
-                         {
-                             Id = m.Id,
-                             Text = m.Text,
-                             DateSent = m.Date,
-                             ContainsFile = m.FileContent == null ? 0 : 1,
-                             Sender = (m.Sender != null) ? m.Sender.UserName : null
-                         }));
+            return this.Ok(messages.Select(ChannelMessageViewModel.Create));
         }
 
         // POST api/channel-messages/{channelName}
@@ -112,13 +100,8 @@
                 return this.NotFound();
             }
 
-            var currentUserId = this.User.Identity.GetUserId();
-            var currentUser = this.Data.Users.Find(currentUserId);
-
-            if (currentUser == null)
-            {
-                return this.BadRequest("Login to send message.");
-            }
+            var loggedUserId = this.User.Identity.GetUserId();
+            var loggedUser = this.Data.Users.Find(loggedUserId);
 
             var message = new ChannelMessage
                               {
@@ -126,20 +109,12 @@
                                   FileContent = channelMessageData.FileContent, 
                                   ChannelId = channel.Id, 
                                   Date = DateTime.Now, 
-                                  SenderId = currentUser.Id
+                                  SenderId = loggedUser.Id
                               };
             this.Data.ChannelMessages.Add(message);
             this.Data.SaveChanges();
-            
-            return
-                this.Ok(new MessageViewModel
-                {
-                    Id = message.Id,
-                    Text = message.Text,
-                    ContainsFile = message.FileContent == null ? 0 : 1,
-                    DateSent = message.Date,
-                    Sender = message.Sender.UserName
-                });
+
+            return this.Ok(ChannelMessageViewModel.CreateSingleView(message));
         }
     }
 }

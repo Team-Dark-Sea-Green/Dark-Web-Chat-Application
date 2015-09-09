@@ -1,6 +1,11 @@
 ﻿app.controller('AuthenticationController', function(
     $scope, $location, authenticationService, notificationService, credentialsService) {
 
+    if (credentialsService.isLogged()) {
+        $location.path('/chat-main');
+        return 0;
+    }
+
     $scope.register = function (registerData) {
 
         if (!registerData.username) {
@@ -15,7 +20,7 @@
         if (!registerData.confirmPassword) {
             return notificationService.showErrorMessage('Missing password repeat..');
         }
-        if (registerData.confirmPassword != registerData.password) {
+        if (registerData.confirmPassword !== registerData.password) {
             return notificationService.showErrorMessage('Passwords doesn`t match..');
         }
         if (!registerData.email) {

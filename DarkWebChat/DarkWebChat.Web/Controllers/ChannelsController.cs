@@ -1,4 +1,4 @@
-﻿namespace DarkWebChat.RestServices.Controllers
+﻿namespace DarkWebChat.Web.Controllers
 {
     using System.Linq;
     using System.Net;
@@ -10,6 +10,7 @@
     using DarkWebChat.Web.Models.BindingModels;
     using DarkWebChat.Web.Models.ViewModels;
 
+    [Authorize]
     [RoutePrefix("api")]
     public class ChannelsController : BaseApiController
     {
@@ -32,6 +33,7 @@
         public IHttpActionResult GetChannel(string channelName)
         {
             var channel = this.Data.Channels.All().FirstOrDefault(c => c.Name == channelName);
+
             if (channel == null)
             {
                 return this.NotFound();
@@ -66,46 +68,13 @@
             return this.Ok(new ChannelViewModel { Id = channel.Id, Name = channel.Name });
         }
 
-        // PUT api/channels/adduser
-        [HttpPut]
-        [Route("channels/adduser")]
-        public IHttpActionResult AddUserToChannel(AddUserToChannelBindingModel model)
-        {
-            if (model == null)
-            {
-                return this.BadRequest("Invalid data!");
-            }
-
-            if (!this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
-            var channel = this.Data.Channels.Find(model.channelId);
-            if (channel == null)
-            {
-                return this.BadRequest("There is no such channel!");
-            }
-
-            var user = this.Data.Users.Find(model.userlId);
-            if (user == null)
-            {
-                return this.BadRequest("There is no such user!");
-            }
-
-            channel.Users.Add(user);
-            this.Data.Channels.Update(channel);
-            this.Data.SaveChanges();
-
-            return this.Ok(new ChannelViewModel { Id = channel.Id, Name = channel.Name, Users = channel.Users });
-        }
-
         // DELETE api/channels/{channelName}
         [HttpDelete]
         [Route("channels/{channelName}")]
         public IHttpActionResult DeleteChannel(string channelName)
         {
             var channel = this.Data.Channels.All().FirstOrDefault(c => c.Name == channelName);
+
             if (channel == null)
             {
                 return this.BadRequest("There is no such channel!");

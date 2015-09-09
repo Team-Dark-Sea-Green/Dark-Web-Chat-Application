@@ -10,7 +10,8 @@
     using System.Web.Http;
 
     using DarkWebChat.Models;
-    using DarkWebChat.Web.Models;
+    using DarkWebChat.Web.Models.BindingModels;
+    using DarkWebChat.Web.Models.ViewModels;
     using DarkWebChat.Web.Providers;
     using DarkWebChat.Web.Results;
 

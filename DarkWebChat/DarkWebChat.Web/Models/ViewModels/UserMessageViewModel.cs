@@ -5,7 +5,7 @@
 
     using DarkWebChat.Models;
 
-    public class MessageViewModel
+    public class UserMessageViewModel
     {
         public int Id { get; set; }
 
@@ -19,33 +19,33 @@
 
         public string Reciever { get; set; }
 
-        public static Expression<Func<UserMessage, MessageViewModel>> Create
+        public static Expression<Func<UserMessage, UserMessageViewModel>> Create
         {
             get
             {
                 return
                     message =>
-                    new MessageViewModel
+                    new UserMessageViewModel
                         {
                             DateSent = message.Date, 
-                            Id = message.Id,
-                            ContainsFile = message.FileContent == null ? 0 : 1,
-                            Sender = message.Sender.UserName,
+                            Id = message.Id, 
+                            ContainsFile = message.FileContent == null ? 0 : 1, 
+                            Sender = message.Sender.UserName, 
                             Reciever = message.Reciever.UserName, 
                             Text = message.Text
                         };
             }
         }
 
-        public static MessageViewModel CreateSingleView(UserMessage message)
+        public static UserMessageViewModel CreateSingleView(UserMessage message)
         {
-            return new MessageViewModel
+            return new UserMessageViewModel
                        {
-                           DateSent = message.Date,
-                           Id = message.Id,
-                           ContainsFile = message.FileContent == null ? 0 : 1,
-                           Sender = message.Sender.UserName,
-                           Reciever = message.Reciever.UserName,
+                           DateSent = message.Date, 
+                           Id = message.Id, 
+                           ContainsFile = message.FileContent == null ? 0 : 1, 
+                           Sender = message.Sender.UserName, 
+                           Reciever = message.Reciever.UserName, 
                            Text = message.Text
                        };
         }

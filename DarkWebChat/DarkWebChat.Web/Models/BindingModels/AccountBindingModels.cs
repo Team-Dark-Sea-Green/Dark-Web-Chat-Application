@@ -1,4 +1,4 @@
-﻿namespace DarkWebChat.Web.Models
+﻿namespace DarkWebChat.Web.Models.BindingModels
 {
     using System.ComponentModel.DataAnnotations;
 

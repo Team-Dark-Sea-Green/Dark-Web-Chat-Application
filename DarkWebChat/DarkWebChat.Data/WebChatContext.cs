@@ -1,11 +1,11 @@
 namespace DarkWebChat.Data
 {
-    using System;
     using System.Data.Entity;
-    using System.Linq;
+
+    using DarkWebChat.Data.Migrations;
+    using DarkWebChat.Models;
+
     using Microsoft.AspNet.Identity.EntityFramework;
-    using Migrations;
-    using Models;
 
     public class WebChatContext : IdentityDbContext<ApplicationUser>
     {
@@ -13,7 +13,8 @@ namespace DarkWebChat.Data
             : base("name=WebChatContext")
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<WebChatContext, Configuration>());
-            //Database.SetInitializer(new DropCreateDatabaseAlways<WebChatContext>());
+
+            // Database.SetInitializer(new DropCreateDatabaseAlways<WebChatContext>());
         }
 
         public virtual IDbSet<UserMessage> UserMessages { get; set; }

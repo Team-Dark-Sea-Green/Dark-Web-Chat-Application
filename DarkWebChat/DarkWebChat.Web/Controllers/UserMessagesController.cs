@@ -1,4 +1,4 @@
-﻿namespace DarkWebChat.RestServices.Controllers
+﻿namespace DarkWebChat.Web.Controllers
 {
     using System;
     using System.Linq;
@@ -12,6 +12,8 @@
 
     using Microsoft.AspNet.Identity;
 
+    [Authorize]
+    [RoutePrefix("api")]
     public class UserMessagesController : BaseApiController
     {
         public UserMessagesController()
@@ -20,16 +22,11 @@
         }
 
         // GET api/user-messages/message/{id}
-        [Route("api/user-messages/message/{id}")]
+        [Route("user-messages/message/{id}")]
         [HttpGet]
         public IHttpActionResult GetUserMessage(int id)
         {
-            var loggedUser = this.User.Identity.GetUserId();
-
-            if (loggedUser == null)
-            {
-                return this.Unauthorized();
-            }
+            var loggedUserId = this.User.Identity.GetUserId();
 
             var message = this.Data.UserMessages.All().FirstOrDefault(um => um.Id == id);
 
@@ -38,56 +35,49 @@
                 return this.NotFound();
             }
 
-            if (message.RecieverId != loggedUser)
+            if (message.RecieverId != loggedUserId)
             {
                 return this.Unauthorized();
             }
 
-            return this.Ok(new
-            {
-                Id = message.Id,
-                Text = message.Text,
-                DateSent = message.Date,
-                FileContent = message.FileContent,
-                Sender = (message.Sender != null) ? message.Sender.UserName : null,
-                Reciever = (message.Reciever != null) ? message.Reciever.UserName : null
-            });
+            return
+                this.Ok(
+                    new
+                        {
+                            message.Id, 
+                            message.Text, 
+                            DateSent = message.Date, 
+                            message.FileContent, 
+                            Sender = (message.Sender != null) ? message.Sender.UserName : null, 
+                            Reciever = (message.Reciever != null) ? message.Reciever.UserName : null
+                        });
         }
 
         // GET api/user-messages/{username}
-        [Route("api/user-messages/{username}")]
+        [Route("user-messages/{username}")]
         [HttpGet]
         public IHttpActionResult GetAllUserMessages(string username)
         {
-            var loggedUser = this.User.Identity.GetUserId();
-
-            if (loggedUser == null)
-            {
-                return this.Unauthorized();
-            }
+            var loggedUserId = this.User.Identity.GetUserId();
 
             var messages =
                 this.Data.UserMessages.All()
                     .Where(
                         um =>
-                        (um.RecieverId == loggedUser && um.Sender.UserName == username)
-                        || um.SenderId == loggedUser && um.Reciever.UserName == username)
-                    .Select(MessageViewModel.Create);
+                        (um.RecieverId == loggedUserId && um.Sender.UserName == username)
+                        || um.SenderId == loggedUserId && um.Reciever.UserName == username)
+                    .Select(UserMessageViewModel.Create);
 
             return this.Ok(messages);
         }
 
         // POST api/user-messages/{username}
-        [Route("api/user-messages/{username}")]
+        [Route("user-messages/{username}")]
         [HttpPost]
         public IHttpActionResult PostUserMessage(string username, UserMessageBindingModel model)
         {
-            var loggedUser = this.User.Identity;
-
-            if (loggedUser == null)
-            {
-                return this.Unauthorized();
-            }
+            var loggedUserId = this.User.Identity.GetUserId();
+            var loggedUser = this.Data.Users.Find(loggedUserId);
 
             if (!this.ModelState.IsValid)
             {
@@ -104,8 +94,8 @@
             var message = new UserMessage
                               {
                                   Text = model.Text, 
-                                  FileContent = model.FileContent,
-                                  SenderId = loggedUser.GetUserId(), 
+                                  FileContent = model.FileContent, 
+                                  SenderId = loggedUser.Id, 
                                   RecieverId = reciever.Id, 
                                   Date = DateTime.Now
                               };
@@ -113,17 +103,7 @@
             this.Data.UserMessages.Add(message);
             this.Data.SaveChanges();
 
-            return
-                this.Ok(
-                    new MessageViewModel
-                        {
-                            Id = message.Id,
-                            Text = message.Text,
-                            ContainsFile = message.FileContent == null ? 0 : 1,
-                            DateSent = message.Date,
-                            Sender = loggedUser.GetUserName(),
-                            Reciever = reciever.UserName,
-                        });
+            return this.Ok(UserMessageViewModel.CreateSingleView(message));
         }
     }
 }

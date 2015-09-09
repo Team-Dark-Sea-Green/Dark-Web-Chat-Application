@@ -4,9 +4,8 @@
     using System.Collections.Generic;
     using System.Data.Entity;
 
-    using DarkWebChat.Models;
-
     using DarkWebChat.Data.Repositories;
+    using DarkWebChat.Models;
 
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;

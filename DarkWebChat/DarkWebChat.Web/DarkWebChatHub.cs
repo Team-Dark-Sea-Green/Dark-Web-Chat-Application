@@ -12,23 +12,24 @@
     [HubName("DarkWebChatHub")]
     public class DarkWebChatHub : Hub
     {
-        private static Dictionary<string, List<UserDetail>> channelsOnlineUsers = new Dictionary<string, List<UserDetail>>();
+        private static readonly Dictionary<string, List<UserDetail>> channelsOnlineUsers =
+            new Dictionary<string, List<UserDetail>>();
 
         public Task JoinChannel(string userName, string channelName)
         {
             if (!channelsOnlineUsers.ContainsKey(channelName))
             {
-                channelsOnlineUsers[channelName] = new List<UserDetail>(); 
+                channelsOnlineUsers[channelName] = new List<UserDetail>();
             }
 
             // send to caller
             this.Clients.Caller.onConnected(channelsOnlineUsers[channelName].OrderBy(u => u.UserName));
 
             channelsOnlineUsers[channelName].Add(
-               new UserDetail() { ConnectionId = this.Context.ConnectionId, UserName = userName });
+                new UserDetail { ConnectionId = this.Context.ConnectionId, UserName = userName });
 
             var id = this.Context.ConnectionId;
-            
+
             // send to all in group except caller client
             this.Clients.OthersInGroup(channelName).onNewUserConnected(id, userName);
             return this.Groups.Add(this.Context.ConnectionId, channelName);
@@ -56,8 +57,8 @@
 
         public void SendPrivateMessage(string toUserConnetionId, string message, string channelName)
         {
-            string fromUserConnetionId = this.Context.ConnectionId;
-            
+            var fromUserConnetionId = this.Context.ConnectionId;
+
             var toUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == toUserConnetionId);
             var fromUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == fromUserConnetionId);
 
