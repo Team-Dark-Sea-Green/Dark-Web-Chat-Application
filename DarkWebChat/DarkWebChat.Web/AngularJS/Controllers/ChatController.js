@@ -13,6 +13,7 @@
         chatHub.client.onConnected = function (channelOnlineUsers) {
             $scope.channelOnlineUsers = channelOnlineUsers;
             $scope.$apply();
+
         }
         
         chatHub.client.onNewUserConnected = function (id, username) {
@@ -58,6 +59,7 @@
             channelMessagesService.GetChannelMessages(channelName, defaultMessagesLimit,
                 { Authorization: credentialsService.getSessionToken() },
                 function (serverData) {
+                    $scope.currentChannel = channelName;
                     $scope.channelMessages = serverData;
                 },
                 function (serverError) {

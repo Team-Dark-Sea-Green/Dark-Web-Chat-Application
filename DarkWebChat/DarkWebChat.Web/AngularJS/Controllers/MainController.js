@@ -27,5 +27,5 @@
                function (serverError) {
                    notificationService.showErrorMessage(JSON.stringify(serverError));
                });
-    }
+    };
 });

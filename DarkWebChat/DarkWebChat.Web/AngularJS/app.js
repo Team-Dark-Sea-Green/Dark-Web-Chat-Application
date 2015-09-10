@@ -40,6 +40,10 @@ app.config(['$routeProvider', function (routeProvider) {
             templateUrl: 'Partials/chat-channel-window.html',
             controller: 'ChatController'
         })
+        .when('/user/:userName', {
+            templateUrl: 'Partials/chat-private-window.html',
+            controller: 'UserController'
+        })
         .otherwise({
             redirectTo: '/'
         });

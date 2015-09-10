@@ -1,1 +1,27 @@
-﻿
+﻿<section class="private-chat panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="private-user">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+            {{currentUserChat}}
+        </a>
+    </div>
+    <div class="private-messages panel-collapse collapse in" id="collapseOne">
+        <div class="private-messages-content">
+            <div ng-repeat="privateMessage in userMessages" class="list-group">
+                <a href="" class="list-group-item">
+                    <div class="date">{{privateMessage.dateSent | date}}</div>
+                    <br/>
+                    {{privateMessage.sender}} said: {{privateMessage.text}}
+                    <a href="" ng-if="privateMessage.containsFile" ng-click="getPrivateMessageById(privateMessage.id)">Download attached file</a>
+                </a>
+            </div>
+        </div>
+        <div class="post-private-message">
+            <input type="file" fileRead="userMessageData.FileContent"/>
+            <input type="text" ng-model="userMessageData.Text" class="input-sm"/>
+            <button ng-click="postPrivateMessage(currentUserChat, loggedUser.ConnectionId, userMessageData)"
+                    class="btn btn-success btn-sm">
+                Send
+            </button>
+        </div>
+    </div>
+</section>

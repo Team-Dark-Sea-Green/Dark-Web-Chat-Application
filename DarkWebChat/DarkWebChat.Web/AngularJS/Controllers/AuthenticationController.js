@@ -30,6 +30,7 @@
         authenticationService.Register(registerData,
             function(serverData) {
                 notificationService.showInfoMessage('Registration Successful.');
+                $scope.loggedUser = registerData;
                 $scope.login({ userName: registerData.username, Password: registerData.password });
             },
             function(serverError) {
@@ -48,6 +49,7 @@
                 notificationService.showInfoMessage('Login Successful.');
                 credentialsService.setSessionToken(serverData['access_token'], serverData['token_type']);
                 credentialsService.setUsername(serverData['userName']);
+                $scope.loggedUser = serverData;
                 $location.path('/chat-main');
             },
             function (serverError) {

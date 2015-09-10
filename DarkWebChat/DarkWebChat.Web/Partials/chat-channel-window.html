@@ -1,5 +1,6 @@
-﻿<aside class="online-users" style="border: 1px solid black" ng-include="'Partials/chat-users-list.html'"></aside>
-<section class="channel-window">
+﻿<aside class="online-users" style="padding: 2%" ng-include="'Partials/chat-users-list.html'"></aside>
+<section class="channel-window" >
+    <h2>{{currentChannel}}</h2>
     <div class="channel-messages">
         <div ng-repeat="channelMessage in channelMessages" class="list-group">
             <a href="" class="list-group-item">
@@ -17,5 +18,5 @@
         <input ng-click="postChannelMessage(channelMessageData)" type="submit" value="Send"
                class="btn btn-success btn-sm"/>
     </div>
-
 </section>
+<aside class="chat-private-user" ng-include="'Partials/chat-private-window.html'"></aside>

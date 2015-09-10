@@ -44,6 +44,13 @@
 .channel-window{
     margin: 0 auto;
     width: 40%;
+    position: absolute;
+    bottom: 5%;
+    left: 25%;
+}
+
+.channel-window > .post-channel-message {
+    float: right;
 }
 
 .channel-window > .post-channel-message > input {
@@ -68,5 +75,13 @@ aside{
 }
 
 #onlineUsers{
-    padding: 5%;
+}
+
+/*Private chats*/
+.chat-private-user{
+    float: right;
+}
+#accordion{
+    position: relative;
+    bottom: 0;
 }
