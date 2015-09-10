@@ -97,8 +97,8 @@
 
             IQueryable<string> users =
                 this.Data.UserMessages.All()
-                    .Where(u => u.SenderId == loggedUserId || u.RecieverId == loggedUserId)
-                    .Select(m => m.Sender.UserName)
+                    .Where(u => u.SenderId == loggedUserId)
+                    .Select(m => m.Reciever.UserName)
                     .Distinct();
 
             return this.Ok(users);
@@ -122,6 +122,11 @@
             if (reciever == null)
             {
                 return this.BadRequest("No such user.");
+            }
+
+            if (reciever == loggedUser)
+            {
+                return this.BadRequest("Can not send message to yourself.");
             }
 
             var message = new UserMessage
