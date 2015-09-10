@@ -1,7 +1,7 @@
-﻿<section>
-    <h3>Chat friends: </h3>
+﻿<section id="friends" ng-controller="MainController">
+    <h3>Friends: </h3>
     <div ng-repeat="user in userMessagesUsers" class="list-group">
-        <a class="btn-add-panel" href="#/user/{{user.UserName}}">{{user.UserName}}</a>
+        <a class="btn-add-panel" href="#/user/{{user}}">{{user}}</a>
     </div>
 </section>
 

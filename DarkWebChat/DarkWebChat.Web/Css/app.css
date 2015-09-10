@@ -120,3 +120,8 @@
     position: relative;
     bottom: 0;
 }
+
+.friends{
+    position: absolute;
+    top: 10%;
+}
