@@ -286,6 +286,7 @@
     <Content Include="Partials\chat-users-list.html" />
     <Content Include="Partials\navbar.html" />
     <Content Include="Partials\new-messages.html" />
+    <Content Include="Partials\user-messages-users.html" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\bootstrap.js" />

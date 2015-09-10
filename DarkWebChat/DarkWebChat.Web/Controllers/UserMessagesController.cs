@@ -87,6 +87,23 @@
             return this.Ok(messages.Select(UserMessageViewModel.Create));
         }
 
+        // GET api/user-messages/users
+        [Route("user-messages/users")]
+        [EnableQuery]
+        [HttpGet]
+        public IHttpActionResult GetUserMessagesUsers()
+        {
+            var loggedUserId = this.User.Identity.GetUserId();
+
+            IQueryable<string> users =
+                this.Data.UserMessages.All()
+                    .Where(u => u.SenderId == loggedUserId || u.RecieverId == loggedUserId)
+                    .Select(m => m.Sender.UserName)
+                    .Distinct();
+
+            return this.Ok(users);
+        }
+
         // POST api/user-messages/{username}
         [Route("user-messages/{username}")]
         [HttpPost]

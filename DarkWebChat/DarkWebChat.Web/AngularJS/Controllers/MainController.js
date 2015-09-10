@@ -1,5 +1,5 @@
 ﻿app.controller("MainController", function ($scope, $location, chatHub,
-    channelService, notificationService, credentialsService) {
+    channelService, userMessagesService, notificationService, credentialsService) {
 
     if (!credentialsService.isLogged()) {
         $location.path('/');
@@ -24,6 +24,18 @@
         channelService.GetChannels({ Authorization: credentialsService.getSessionToken() },
             function (serverData) {
                 $scope.channels = serverData;
+            },
+            function (serverError) {
+                notificationService.showErrorMessage(JSON.stringify(serverError));
+            });
+    }
+
+    GetUserMessagesUsers();
+    function GetUserMessagesUsers() {
+        userMessagesService.GetUserMessagesUsers({ Authorization: credentialsService.getSessionToken() },
+            function (serverData) {
+                $scope.userMessagesUsers = serverData;
+                console.log(serverData);
             },
             function (serverError) {
                 notificationService.showErrorMessage(JSON.stringify(serverError));
