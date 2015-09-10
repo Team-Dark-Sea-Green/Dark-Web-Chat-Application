@@ -8,6 +8,8 @@
         }
         var defaultMessagesLimit = 5;
 
+        $scope.loggedUser = credentialsService.getUsername();
+
         // SignalR functions
         chatHub.client.onConnected = function (channelOnlineUsers) {
             $scope.channelOnlineUsers = channelOnlineUsers;

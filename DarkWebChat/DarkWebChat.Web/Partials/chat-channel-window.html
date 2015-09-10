@@ -5,13 +5,19 @@
     <h2>{{currentChannel}}</h2>
     <div class="channel-messages">
         <div ng-repeat="channelMessage in channelMessages" class="list-group">
-            <a href="" class="list-group-item">
+            <a href="" class="list-group-item author" ng-if="loggedUser == channelMessage.sender">
                 <div class="date">{{channelMessage.dateSent | date}}</div>
                 <br/>
-                {{channelMessage.sender}} said: {{channelMessage.text}}
+                <span class="white-font said-text">Me: {{channelMessage.text}} </span>
                 <a href="" ng-if="channelMessage.containsFile" ng-click="getChannelMessageById(channelMessage.id)">Download attached file</a>
             </a>
-
+            <a href="" class="list-group-item" ng-if="loggedUser != channelMessage.sender">
+                <div class="date">{{channelMessage.dateSent | date}}</div>
+                <br/>
+                <span>{{channelMessage.sender}} said: </span>
+                <span class="white-font said">{{channelMessage.text}} </span>
+                <a href="" ng-if="channelMessage.containsFile" ng-click="getChannelMessageById(channelMessage.id)">Download attached file</a>
+            </a>
         </div>
     </div>
     <div class="post-channel-message">

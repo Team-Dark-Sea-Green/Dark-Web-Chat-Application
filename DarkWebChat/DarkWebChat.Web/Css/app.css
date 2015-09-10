@@ -116,6 +116,9 @@
 .chat-private-user{
     float: right;
 }
+.private-user h3{
+    margin-left: 40px;
+}
 #accordion{
     position: relative;
     bottom: 0;
@@ -124,4 +127,25 @@
 .friends{
     position: absolute;
     top: 10%;
+}
+
+.white-font{
+    color: white;
+}
+
+.said{
+    font-size: 1.25em;
+}
+
+a.author{
+    background-color: #444444;
+    padding-bottom: 7%;
+}
+
+a.author > div.date{
+    float: right;
+}
+
+a.author > span{
+    float: right;
 }

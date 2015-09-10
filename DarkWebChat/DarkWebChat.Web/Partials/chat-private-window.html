@@ -11,10 +11,17 @@
     <div class="private-messages">
         <div class="private-messages-content">
             <div ng-repeat="privateMessage in userMessages" class="list-group">
-                <a href="" class="list-group-item">
+                <a href="" class="list-group-item" ng-if="currentUserChat == privateMessage.sender">
                     <div class="date">{{privateMessage.dateSent | date}}</div>
                     <br/>
-                    {{privateMessage.sender}} said: {{privateMessage.text}}
+                    <span>{{privateMessage.sender}} said: </span>
+                     <span class="white-font said">{{privateMessage.text}} </span>
+                    <a href="" ng-if="privateMessage.containsFile" ng-click="getUserMessageById(privateMessage.id)">Download attached file</a>
+                </a>
+                <a href="" class="list-group-item author" ng-if="currentUserChat != privateMessage.sender">
+                    <div class="date">{{privateMessage.dateSent | date}}</div>
+                    <br/>
+                    <span class="white-font said-text">Me: {{privateMessage.text}} </span>
                     <a href="" ng-if="privateMessage.containsFile" ng-click="getUserMessageById(privateMessage.id)">Download attached file</a>
                 </a>
             </div>
