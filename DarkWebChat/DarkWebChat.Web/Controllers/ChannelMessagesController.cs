@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Web.Http;
+    using System.Web.Http.OData;
 
     using DarkWebChat.Data.UnitOfWork;
     using DarkWebChat.Models;
@@ -46,6 +47,7 @@
 
         // GET api/channel-messages/{channelName}
         [HttpGet]
+        [EnableQuery]
         [Route("channel-messages/{channelName}")]
         public IHttpActionResult GetAllChannelMessages(string channelName, [FromUri] string limit = null)
         {

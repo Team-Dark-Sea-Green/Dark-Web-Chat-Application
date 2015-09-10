@@ -6,7 +6,6 @@
             $location.path('/');
             return 0;
         }
-
         var defaultMessagesLimit = 5;
 
         // SignalR functions
@@ -46,6 +45,7 @@
 
         chatHub.client.onPrivateMessageRecieved = function (fromUserConnetionId, message) {
             var message = JSON.parse(message);
+            $('#new-messages-list').append('<li><a href="#/user/' + message.sender + '"> New message from: ' + message.sender + '</a></li>');
             notificationService.showInfoMessage
                 (message.sender + " wrote you: " + message.text.substring(0, 10) + "...");
         }
