@@ -8,7 +8,14 @@
 
     chatHub.client.onPrivateMessageRecieved = function (fromUserConnetionId, message) {
         var message = JSON.parse(message);
-        $('#new-messages-list').append('<li><a href="#/user/'+ message.sender+'"> New message from: '+ message.sender +'</a></li>');
+        if(isNaN($scope.sender)){
+            $scope.sender = 1;
+            $('a#' + message.sender).after('<button class="btn btn-warning btn-xs" style="margin-left: 5px; padding: 0px 5px; line-height: 1.4">'+ $scope.sender +'</button>');
+        }
+        else{
+            $scope.sender = ++$scope.sender;
+            $('a#' + message.sender).parent().find('button').text($scope.sender);
+        }
         notificationService.showInfoMessage
             (message.sender + " wrote you: " + message.text.substring(0, 10) + "...");
     }
