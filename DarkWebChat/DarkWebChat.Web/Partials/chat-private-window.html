@@ -1,10 +1,12 @@
-﻿<section class="private-chat panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+﻿<div ng-include="'Partials/navbar.html'"></div>
+<aside class="online-users" style="padding: 2%" ng-include="'Partials/channels-overview.html'"></aside>
+<section class="private-window">
     <div class="private-user">
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+        <h3>
             {{currentUserChat}}
-        </a>
+        </h3>
     </div>
-    <div class="private-messages panel-collapse collapse in" id="collapseOne">
+    <div class="private-messages">
         <div class="private-messages-content">
             <div ng-repeat="privateMessage in userMessages" class="list-group">
                 <a href="" class="list-group-item">
