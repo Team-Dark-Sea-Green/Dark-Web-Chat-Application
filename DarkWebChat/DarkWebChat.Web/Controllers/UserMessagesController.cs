@@ -34,7 +34,7 @@
                 return this.NotFound();
             }
 
-            if (message.RecieverId != loggedUserId)
+            if (message.RecieverId != loggedUserId && message.SenderId != loggedUserId)
             {
                 return this.Unauthorized();
             }

@@ -13,7 +13,7 @@
                     <div class="date">{{privateMessage.dateSent | date}}</div>
                     <br/>
                     {{privateMessage.sender}} said: {{privateMessage.text}}
-                    <a href="" ng-if="privateMessage.containsFile" ng-click="getPrivateMessageById(privateMessage.id)">Download attached file</a>
+                    <a href="" ng-if="privateMessage.containsFile" ng-click="getUserMessageById(privateMessage.id)">Download attached file</a>
                 </a>
             </div>
         </div>

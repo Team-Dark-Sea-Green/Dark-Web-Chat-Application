@@ -1,5 +1,6 @@
 app.controller("UserController",
-    function ($scope, $routeParams, $window, $location, chatHub, userMessagesService, notificationService, credentialsService) {
+    function ($scope, $routeParams, $window, $location, chatHub, userMessagesService,
+        channelService, notificationService, credentialsService, utilitiesService) {
 
         if (!credentialsService.isLogged()) {
             $location.path('/');
@@ -47,6 +48,17 @@ app.controller("UserController",
                 });
         }
 
+        GetChannels();
+        function GetChannels() {
+            channelService.GetChannels({ Authorization: credentialsService.getSessionToken() },
+                function (serverData) {
+                    $scope.channels = serverData;
+                },
+                function (serverError) {
+                    notificationService.showErrorMessage(JSON.stringify(serverError));
+                });
+        }
+
         $scope.getUserMessageById = function(id) {
             userMessagesService.GetUserMessageById(id, { Authorization: credentialsService.getSessionToken() },
                 function (serverData) {
@@ -57,7 +69,7 @@ app.controller("UserController",
                     } else {
                         fileType = 'application/zip';
                     }
-                    var blob = b64ToBlob(base64String, fileType);
+                    var blob = utilitiesService.convertB64ToBlob(base64String, fileType);
                     var blobUrl = URL.createObjectURL(blob);
 
                     $window.open(blobUrl);
@@ -95,5 +107,4 @@ app.controller("UserController",
                     notificationService.showErrorMessage(JSON.stringify(serverError));
             });
         }
-
 });

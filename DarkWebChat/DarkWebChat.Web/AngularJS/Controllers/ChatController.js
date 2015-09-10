@@ -1,6 +1,6 @@
 ﻿app.controller("ChatController",
     function ($scope, $routeParams, $window, $location, chatHub, channelMessagesService,
-        userMessagesService, notificationService, credentialsService) {
+        userMessagesService, notificationService, credentialsService, utilitiesService) {
 
         if (!credentialsService.isLogged()) {
             $location.path('/');
@@ -18,7 +18,7 @@
         
         chatHub.client.onNewUserConnected = function (id, username) {
             $scope.channelOnlineUsers.push({ "ConnectionId": id, "UserName": username });
-            sortAlphabeticaly($scope.channelOnlineUsers);
+            utilitiesService.sortArrayAlphabeticaly($scope.channelOnlineUsers);
             $scope.$apply();
             notificationService.showInfoMessage(username + " connected");
         }
@@ -30,7 +30,7 @@
                         return el.UserName !== username;
                     });
 
-            $scope.channelOnlineUsers = sortAlphabeticaly(set);
+            $scope.channelOnlineUsers = utilitiesService.sortArrayAlphabeticaly(set);
             $scope.$apply();
         }
 
@@ -81,27 +81,7 @@
                     } else {
                         fileType = 'application/zip';
                     }
-                    var blob = b64ToBlob(base64String, fileType);
-                    var blobUrl = URL.createObjectURL(blob);
-
-                    $window.open(blobUrl);
-                },
-                function (serverError) {
-                    notificationService.showErrorMessage(JSON.stringify(serverError));
-                });
-        }
-
-        $scope.getUserMessageById = function(id) {
-            userMessagesService.GetUserMessageById(id, { Authorization: credentialsService.getSessionToken() },
-                function (serverData) {
-                    var base64String = serverData.fileContent.match(',(.+)')[1];
-                    var fileType = serverData.fileContent.match(':(.+);');
-                    if (fileType != null) {
-                        fileType = fileType[1];
-                    } else {
-                        fileType = 'application/zip';
-                    }
-                    var blob = b64ToBlob(base64String, fileType);
+                    var blob = utilitiesService.convertB64ToBlob(base64String, fileType);
                     var blobUrl = URL.createObjectURL(blob);
 
                     $window.open(blobUrl);
@@ -138,41 +118,5 @@
                 function(serverError) {
                     notificationService.showErrorMessage(JSON.stringify(serverError));
                 });
-        }
-
-        // Functions
-        function sortAlphabeticaly(array) {
-
-            var sortedArray = array.sort(function (a, b) {
-                var userA = a.UserName.toUpperCase();
-                var userB = b.UserName.toUpperCase();
-                return (userA < userB) ? -1 : (userA > userB) ? 1 : 0;
-            });
-
-            return sortedArray;
-        }
-
-        function b64ToBlob(b64Data, contentType, sliceSize) {
-            contentType = contentType || '';
-            sliceSize = sliceSize || 512;
-
-            var byteCharacters = atob(b64Data);
-            var byteArrays = [];
-
-            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-                var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-                var byteNumbers = new Array(slice.length);
-                for (var i = 0; i < slice.length; i++) {
-                    byteNumbers[i] = slice.charCodeAt(i);
-                }
-
-                var byteArray = new Uint8Array(byteNumbers);
-
-                byteArrays.push(byteArray);
-            }
-
-            var blob = new Blob(byteArrays, { type: contentType });
-            return blob;
         }
 });
