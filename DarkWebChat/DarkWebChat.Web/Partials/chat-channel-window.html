@@ -1,4 +1,5 @@
-﻿<aside class="online-users" style="padding: 2%" ng-include="'Partials/chat-users-list.html'"></aside>
+﻿<div ng-include="'Partials/navbar.html'"></div>
+<aside class="online-users" style="padding: 2%" ng-include="'Partials/chat-users-list.html'"></aside>
 <section class="channel-window" >
     <h2>{{currentChannel}}</h2>
     <div class="channel-messages">
@@ -19,4 +20,3 @@
                class="btn btn-success btn-sm"/>
     </div>
 </section>
-<aside class="chat-private-user" ng-include="'Partials/chat-private-window.html'"></aside>

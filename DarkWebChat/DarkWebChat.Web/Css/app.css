@@ -51,6 +51,7 @@
 
 .channel-window > .post-channel-message {
     float: right;
+    display: inline-block;
 }
 
 .channel-window > .post-channel-message > input {
@@ -71,13 +72,43 @@
 
 /*Online users*/
 aside{
-    float: left;
+    float: right;
+    margin-right: 10%;
 }
 
 #onlineUsers{
 }
 
 /*Private chats*/
+.private-window{
+    margin: 0 auto;
+    width: 40%;
+    position: absolute;
+    bottom: 5%;
+    left: 25%;
+}
+
+.private-window .post-private-message {
+    float: right;
+}
+
+.private-window .post-private-message > input {
+    display: inline-block;
+}
+
+.private-window .post-private-message > input[type="file"] {
+    width: 35%;
+    display: inline-block !important;
+}
+
+.private-window .post-private-message > input[type="text"] {
+    width: 50%;
+}
+
+.private-window div.date {
+    font-size: 0.8em;
+}
+
 .chat-private-user{
     float: right;
 }

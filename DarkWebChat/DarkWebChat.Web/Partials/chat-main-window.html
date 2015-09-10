@@ -1,4 +1,5 @@
-﻿<section id="channelsScreen">
+﻿<div ng-include="'Partials/navbar.html'"></div>
+<section id="channelsScreen">
     <h2>Available Channels</h2>
     <div ng-repeat="channel in channels" class="list-group">
         <a href="#/channel/{{channel.name}}" class="list-group-item">{{channel.name}}</a>
