@@ -1,9 +1,14 @@
 app.controller("UserController",
     function ($scope, $routeParams, $window, $location, chatHub, userMessagesService, notificationService, credentialsService) {
 
+        if (!credentialsService.isLogged()) {
+            $location.path('/');
+            return 0;
+        }
+
         var defaultMessagesLimit = 5;
 
-        chatHub.client.onUserMessageReceived = function (message) {
+        chatHub.client.onPrivateMessageRecieved = function (fromUserConnetionId, message) {
             var messagesOnPage = $scope.userMessages.length;
             if (messagesOnPage >= 5) {
                 $scope.userMessages.shift();
@@ -13,13 +18,19 @@ app.controller("UserController",
             $scope.$apply();
         }
 
-        chatHub.client.onPrivateMessageRecieved = function (fromUserConnetionId, message) {
-            console.log(JSON.parse(message));
+        chatHub.client.onSentPrivateMessage = function (toUserConnetionId, message) {
+            var messagesOnPage = $scope.userMessages.length;
+            if (messagesOnPage >= 5) {
+                $scope.userMessages.shift();
+            }
+
+            $scope.userMessages.push(JSON.parse(message));
+            $scope.$apply();
         }
 
         $.connection.hub.stop();
-        $.connection.hub.start().done(function() {
-            chatHub.server.joinChannel(credentialsService.getUsername(), $routeParams.channelName);
+        $.connection.hub.start().done(function () {
+            chatHub.server.connectUser(credentialsService.getUsername());
         });
 
         // Auto-call-functions
@@ -56,7 +67,7 @@ app.controller("UserController",
                 });
         }
 
-        $scope.postPrivateMessage = function (username, userConnectionId, userMessageData) {
+        $scope.postPrivateMessage = function (username, userMessageData) {
             var hasFile = false;
             var isMoreThanOneMb;
 
@@ -78,7 +89,7 @@ app.controller("UserController",
             userMessagesService.PostUserMessage(username, userMessageData,
                 { Authorization: credentialsService.getSessionToken() },
                 function (serverData) {
-                    chatHub.server.sendPrivateMessage(userConnectionId, JSON.stringify(serverData), $routeParams.channelName);
+                    chatHub.server.sendPrivateMessage(username, JSON.stringify(serverData));
                 },
                 function(serverError) {
                     notificationService.showErrorMessage(JSON.stringify(serverError));

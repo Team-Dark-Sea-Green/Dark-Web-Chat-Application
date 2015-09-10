@@ -18,7 +18,7 @@
         <div class="post-private-message">
             <input type="file" fileRead="userMessageData.FileContent"/>
             <input type="text" ng-model="userMessageData.Text" class="input-sm"/>
-            <button ng-click="postPrivateMessage(currentUserChat, loggedUser.ConnectionId, userMessageData)"
+            <button ng-click="postPrivateMessage(currentUserChat, userMessageData)"
                     class="btn btn-success btn-sm">
                 Send
             </button>

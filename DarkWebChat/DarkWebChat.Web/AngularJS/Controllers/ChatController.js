@@ -45,11 +45,14 @@
         }
 
         chatHub.client.onPrivateMessageRecieved = function (fromUserConnetionId, message) {
-            console.log(JSON.parse(message));
+            var message = JSON.parse(message);
+            notificationService.showInfoMessage
+                (message.sender + " wrote you: " + message.text.substring(0, 10) + "...");
         }
 
         $.connection.hub.stop();
-        $.connection.hub.start().done(function() {
+        $.connection.hub.start().done(function () {
+            chatHub.server.connectUser(credentialsService.getUsername());
             chatHub.server.joinChannel(credentialsService.getUsername(), $routeParams.channelName);
         });
 
@@ -108,7 +111,7 @@
                 });
         }
 
-        $scope.postChannelMessage = function (channelMessageData) {
+        $scope.postChannelMessage = function(channelMessageData) {
             var hasFile = false;
             var isMoreThanOneMb;
 
@@ -123,43 +126,14 @@
             }
 
             if (channelMessageData.Text === undefined || channelMessageData.Text === null ||
-                    channelMessageData.Text.trim() === "" && hasFile === true) {
+                channelMessageData.Text.trim() === "" && hasFile === true) {
                 channelMessageData.Text = "File only";
             }
 
             channelMessagesService.PostChannelMessage($routeParams.channelName, channelMessageData,
                 { Authorization: credentialsService.getSessionToken() },
-                function (serverData) {
+                function(serverData) {
                     chatHub.server.sendMessageToGroup(JSON.stringify(serverData), $routeParams.channelName);
-                },
-                function(serverError) {
-                    notificationService.showErrorMessage(JSON.stringify(serverError));
-                });
-        }
-
-        $scope.postPrivateMessage = function (username, userConnectionId, userMessageData) {
-            var hasFile = false;
-            var isMoreThanOneMb;
-
-            if (userMessageData.FileContent !== undefined && userMessageData.FileContent !== null) {
-                hasFile = true;
-                isMoreThanOneMb = userMessageData.FileContent.size > 1024 * 1024;
-                userMessageData.FileContent = userMessageData.FileContent.src;
-            }
-
-            if (hasFile === true && isMoreThanOneMb === true) {
-                return notificationService.showErrorMessage("File size must be up to 1MB.");
-            }
-
-            if (userMessageData.Text === undefined || userMessageData.Text === null ||
-                    userMessageData.Text.trim() === "" && hasFile === true) {
-                userMessageData.Text = "File only";
-            }
-
-            userMessagesService.PostUserMessage(username, userMessageData,
-                { Authorization: credentialsService.getSessionToken() },
-                function (serverData) {
-                    chatHub.server.sendPrivateMessage(userConnectionId, JSON.stringify(serverData), $routeParams.channelName);
                 },
                 function(serverError) {
                     notificationService.showErrorMessage(JSON.stringify(serverError));

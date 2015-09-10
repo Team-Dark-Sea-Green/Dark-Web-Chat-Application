@@ -1,10 +1,14 @@
 ﻿app.controller('AuthenticationController', function(
-    $scope, $location, authenticationService, notificationService, credentialsService) {
+    $scope, $location, chatHub, authenticationService, notificationService, credentialsService) {
 
     if (credentialsService.isLogged()) {
         $location.path('/chat-main');
         return 0;
     }
+
+    $.connection.hub.stop();
+    $.connection.hub.start().done(function () {
+    });
 
     $scope.register = function (registerData) {
 
@@ -30,7 +34,6 @@
         authenticationService.Register(registerData,
             function(serverData) {
                 notificationService.showInfoMessage('Registration Successful.');
-                $scope.loggedUser = registerData;
                 $scope.login({ userName: registerData.username, Password: registerData.password });
             },
             function(serverError) {
@@ -49,7 +52,7 @@
                 notificationService.showInfoMessage('Login Successful.');
                 credentialsService.setSessionToken(serverData['access_token'], serverData['token_type']);
                 credentialsService.setUsername(serverData['userName']);
-                $scope.loggedUser = serverData;
+                chatHub.server.connectUser(serverData['userName']);
                 $location.path('/chat-main');
             },
             function (serverError) {

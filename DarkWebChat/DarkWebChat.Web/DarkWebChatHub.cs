@@ -15,6 +15,22 @@
         private static readonly Dictionary<string, List<UserDetail>> channelsOnlineUsers =
             new Dictionary<string, List<UserDetail>>();
 
+        private static readonly List<UserDetail> chatOnlineUsers = new List<UserDetail>(); 
+
+        public void ConnectUser(string userName)
+        {
+            var user = chatOnlineUsers.FirstOrDefault(u => u.UserName == userName);
+            if (user == null)
+            {
+                chatOnlineUsers.Add(
+                new UserDetail { ConnectionId = this.Context.ConnectionId, UserName = userName });
+            }
+            else
+            {
+                user.ConnectionId = this.Context.ConnectionId;
+            }
+        }
+
         public Task JoinChannel(string userName, string channelName)
         {
             if (!channelsOnlineUsers.ContainsKey(channelName))
@@ -55,21 +71,16 @@
             this.Clients.Group(channelName).onChannelMessageReceived(message);
         }
 
-        public void SendPrivateMessage(string toUserConnetionId, string message, string channelName)
+        public void SendPrivateMessage(string username, string message)
         {
             var fromUserConnetionId = this.Context.ConnectionId;
+            var toUserConnectionId = chatOnlineUsers.FirstOrDefault(u => u.UserName == username).ConnectionId;
 
-            var toUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == toUserConnetionId);
-            var fromUser = channelsOnlineUsers[channelName].FirstOrDefault(x => x.ConnectionId == fromUserConnetionId);
+            // send to 
+            this.Clients.Client(toUserConnectionId).onPrivateMessageRecieved(fromUserConnetionId, message);
 
-            if (toUser != null && fromUser != null)
-            {
-                // send to 
-                this.Clients.Client(toUserConnetionId).onPrivateMessageRecieved(fromUserConnetionId, message);
-
-                // send to caller user
-                this.Clients.Caller.onSentPrivateMessage(toUserConnetionId, message);
-            }
+            // send to caller user
+            this.Clients.Caller.onSentPrivateMessage(toUserConnectionId, message);
         }
 
         public override Task OnDisconnected(bool stopCalled)
@@ -78,12 +89,18 @@
 
             foreach (var channel in channelsOnlineUsers.Keys)
             {
-                var user = channelsOnlineUsers[channel].FirstOrDefault(u => u.ConnectionId == connectionId);
+                var user = chatOnlineUsers.FirstOrDefault(u => u.ConnectionId == connectionId);
+                var userInChannel = channelsOnlineUsers[channel].FirstOrDefault(u => u.ConnectionId == connectionId);
+
+                if (userInChannel != null)
+                {
+                    channelsOnlineUsers[channel].Remove(userInChannel);
+                    this.Clients.All.onUserDisconnected(userInChannel.UserName);
+                }
+
                 if (user != null)
                 {
-                    channelsOnlineUsers[channel].Remove(user);
-
-                    this.Clients.All.onUserDisconnected(user.UserName);
+                    chatOnlineUsers.Remove(user);
                 }
             }
 

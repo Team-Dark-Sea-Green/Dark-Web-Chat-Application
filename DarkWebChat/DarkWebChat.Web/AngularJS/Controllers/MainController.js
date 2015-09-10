@@ -5,6 +5,17 @@
         return 0;
     }
 
+    chatHub.client.onPrivateMessageRecieved = function (fromUserConnetionId, message) {
+        var message = JSON.parse(message);
+        notificationService.showInfoMessage
+            (message.sender + " wrote you: " + message.text.substring(0, 10) + "...");
+    }
+
+    $.connection.hub.stop();
+    $.connection.hub.start().done(function () {
+        chatHub.server.connectUser(credentialsService.getUsername());
+    });
+
     //Auto-call-functions
     GetChannels();
     function GetChannels() {
