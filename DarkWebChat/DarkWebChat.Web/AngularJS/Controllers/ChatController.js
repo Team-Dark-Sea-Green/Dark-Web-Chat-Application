@@ -84,6 +84,12 @@
                 });
         }
         // Event-handlers
+
+        $scope.logout = function() {
+            credentialsService.clearCredentials();
+            $location.path('/');
+        }
+
         $scope.getChannelMessageById = function(id) {
             channelMessagesService.GetChannelMessageById(id, { Authorization: credentialsService.getSessionToken() },
                 function (serverData) {

@@ -58,6 +58,12 @@ app.controller("UserController",
                     notificationService.showErrorMessage(JSON.stringify(serverError));
                 });
         }
+        // Event-handlers
+
+        $scope.logout = function () {
+            credentialsService.clearCredentials();
+            $location.path('/');
+        }
 
         $scope.getUserMessageById = function(id) {
             userMessagesService.GetUserMessageById(id, { Authorization: credentialsService.getSessionToken() },

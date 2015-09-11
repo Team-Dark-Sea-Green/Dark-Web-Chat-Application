@@ -50,6 +50,12 @@
     }
 
     // Event-handlers
+
+    $scope.logout = function () {
+        credentialsService.clearCredentials();
+        $location.path('/');
+    }
+
     $scope.addNewChannel = function(channelData) {
         channelService.AddChannel(channelData,
                { Authorization: credentialsService.getSessionToken() },
