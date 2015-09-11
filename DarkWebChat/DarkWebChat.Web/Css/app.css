@@ -150,6 +150,6 @@ a.author > span{
     float: right;
 }
 
-.navbar-brand > .form-group {
+.navbar-header > .form-group {
     float: left;
 }
