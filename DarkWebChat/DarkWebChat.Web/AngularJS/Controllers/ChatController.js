@@ -72,6 +72,17 @@
                 });
         }
 
+        GetUserMessagesUsers();
+        function GetUserMessagesUsers() {
+            userMessagesService.GetUserMessagesUsers({ Authorization: credentialsService.getSessionToken() },
+                function (serverData) {
+                    $scope.userMessagesUsers = serverData;
+                    console.log(serverData);
+                },
+                function (serverError) {
+                    notificationService.showErrorMessage(JSON.stringify(serverError));
+                });
+        }
         // Event-handlers
         $scope.getChannelMessageById = function(id) {
             channelMessagesService.GetChannelMessageById(id, { Authorization: credentialsService.getSessionToken() },

@@ -89,19 +89,22 @@
 
         // GET api/user-messages/users
         [Route("user-messages/users")]
-        [EnableQuery]
         [HttpGet]
         public IHttpActionResult GetUserMessagesUsers()
         {
             var loggedUserId = this.User.Identity.GetUserId();
 
-            IQueryable<string> users =
+            var friends =
                 this.Data.UserMessages.All()
-                    .Where(u => u.SenderId == loggedUserId)
-                    .Select(m => m.Reciever.UserName)
-                    .Distinct();
+                    .Where(m => m.SenderId == loggedUserId || m.RecieverId == loggedUserId)
+                    .SelectMany(m => new[] { m.Reciever.UserName, m.Sender.UserName })
+                    .Distinct().ToList();
 
-            return this.Ok(users);
+            var loggedUser = this.Data.Users.Find(loggedUserId);
+            var me = friends.FirstOrDefault(u => u == loggedUser.UserName);
+            friends.Remove(me);
+
+            return this.Ok(friends);
         }
 
         // POST api/user-messages/{username}
