@@ -22,8 +22,11 @@ app.run(function ($rootScope, $route, $location) {
     });
 });
 
+//app.constant('baseUrl',
+//    'http://localhost:61714/api/'
+//);
 app.constant('baseUrl',
-    'http://localhost:61714/api/'
+    'http://darkwebchat.azurewebsites.net/api/'
 );
 
 app.config(['$routeProvider', function (routeProvider) {
