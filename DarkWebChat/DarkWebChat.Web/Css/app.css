@@ -149,3 +149,7 @@ a.author > div.date{
 a.author > span{
     float: right;
 }
+
+.navbar-brand > .form-group {
+    float: left;
+}
