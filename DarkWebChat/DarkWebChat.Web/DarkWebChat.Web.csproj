@@ -266,6 +266,7 @@
     <Content Include="AngularJS\Controllers\UserController.js" />
     <Content Include="AngularJS\Directives\fileRead.js" />
     <Content Include="AngularJS\Directives\private-chat.js" />
+    <Content Include="AngularJS\Filters\dateFilter.js" />
     <Content Include="AngularJS\js\private-chat-view.js" />
     <Content Include="AngularJS\Services\channelMessagesService.js" />
     <Content Include="AngularJS\Services\channelService.js" />
